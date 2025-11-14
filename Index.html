@@ -1,144 +1,103 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>APP下载链接生成器 — Token 版</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Token 下载链接生成器</title>
 <style>
-  /* 简化样式，保留之前视觉感 */
-  body{font-family:system-ui;padding:24px;background:radial-gradient(circle at top,#0a0f1c,#02040a);color:#eaf0ff}
+  body{font-family:system-ui,Segoe UI,Arial;background:#041022;color:#eaf0ff;padding:28px;text-align:center}
   h1{color:#00e0ff}
-  .btn-versions{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;max-width:720px}
-  .version-btn{background:#00e0ff;color:#000;border-radius:10px;padding:12px;border:none;font-weight:700;cursor:pointer}
-  #generate{background:#ff3b3b;padding:14px 28px;border-radius:14px;border:none;font-size:1.1rem;cursor:pointer}
-  pre{background:rgba(255,255,255,0.06);padding:12px;border-radius:10px;white-space:pre-wrap}
-  .tutorial{background:rgba(255,255,255,0.04);padding:16px;border-radius:12px;margin-top:18px;max-width:760px}
-  .lang-buttons button{margin-right:8px;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+  .card{max-width:720px;margin:14px auto;padding:18px;border-radius:12px;background:rgba(255,255,255,0.03)}
+  input,select,button{padding:12px;border-radius:10px;border:none;font-size:16px}
+  button.primary{background:#ff3b3b;color:#fff;padding:14px 26px;font-weight:700;border-radius:12px}
+  button.ghost{background:#00c8d7;color:#000;margin-left:8px}
+  pre{background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;overflow:auto}
+  .row{display:flex;gap:8px;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
-  <h1>APP 下载链接生成器（Token 版）</h1>
+  <h1>🔐 Token 下载生成器（简易）</h1>
 
-  <label>UID（可选 — 不影响 Token 流程）</label><br>
-  <input id="uid" placeholder="例如 user123" style="padding:10px;border-radius:8px;border:none;width:80%;max-width:320px"><br><br>
+  <div class="card">
+    <div style="margin-bottom:10px">选择 App（可选）：</div>
+    <select id="selectApp" style="width:70%;max-width:420px"></select>
+    <div style="height:12px"></div>
 
-  <h3>请选择版本（zone）</h3>
-  <div class="btn-versions" id="versionContainer"></div>
-
-  <div style="margin-top:18px">
-    <button id="generate">⚙️ 生成短链（Token）</button>
-    <button id="copyBtn" style="display:none;margin-left:8px">📋 复制短链</button>
-  </div>
-
-  <pre id="output">👉 选择版本然后点击“生成短链（Token）”</pre>
-
-  <div class="tutorial">
-    <h3>📘 安装教程</h3>
-    <div class="lang-buttons">
-      <button onclick="setLanguage('zh')">中文</button>
-      <button onclick="setLanguage('en')">English</button>
-      <button onclick="setLanguage('ms')">Bahasa</button>
+    <div class="row" style="margin-bottom:12px">
+      <button id="genToken" class="primary">生成 5 位 Token</button>
+      <button id="useToken" class="ghost">用 Token 生成下载链接</button>
     </div>
-    <div style="margin-top:10px">
-      <button onclick="showTutorial('mobile')">📱 手机</button>
-      <button onclick="showTutorial('tvbox')">📺 TV Box</button>
-      <button onclick="showTutorial('androidtv')">📺 Android TV</button>
+
+    <div style="text-align:left;max-width:720px;margin:0 auto">
+      <div>Token：</div>
+      <pre id="tokenOut">(尚未生成)</pre>
+      <div>下载链接：</div>
+      <pre id="linkOut">(尚未生成)</pre>
     </div>
-    <div id="tutorialContent" style="margin-top:12px"></div>
+
+    <div style="margin-top:12px;color:#ffddcc;text-align:left;max-width:720px;margin-left:auto;margin-right:auto">
+      提示：生成的 Token 会绑定到内部 uid 并保存 1 年。Token 可选择指向某个 App（zone），也可以后用 Token 时指定 zone。
+    </div>
   </div>
 
 <script>
-const workerApi = "https://app.powertech.workers.dev"; // YOUR worker domain
-const r2Base = "https://app.powertech.workers.dev"; // used only for short link display
-const jsonURL = "https://raw.githubusercontent.com/PowerTech0417/LinksApp_worker/refs/heads/main/downloads.json";
+const API_BASE = ""; // same origin (if hosted together). If Worker at app.powertech.workers.dev, set API_BASE = 'https://app.powertech.workers.dev'
+const tokenOut = document.getElementById("tokenOut");
+const linkOut = document.getElementById("linkOut");
+const selectApp = document.getElementById("selectApp");
 
-let selectedZone = null;
-let appName = "";
-let token = null;
-let currentLang = "zh";
-let currentType = "mobile";
-
-async function loadVersions(){
-  const res = await fetch(jsonURL);
-  const data = await res.json();
-  const container = document.getElementById("versionContainer");
-  container.innerHTML = "";
-  // support array format or map format
-  if (Array.isArray(data.downloads)){
-    data.downloads.forEach(d=>{
-      const btn = document.createElement("button");
-      btn.className = "version-btn";
-      btn.textContent = d.name + " (z"+d.zone+")";
-      btn.dataset.zone = d.zone;
-      btn.addEventListener("click", ()=>{ document.querySelectorAll(".version-btn").forEach(b=>b.style.transform=""); btn.style.transform="scale(1.04)"; selectedZone=d.zone; appName=d.name; document.getElementById("output").textContent = `已选择 ${d.name} (zone ${d.zone})`; });
-      container.appendChild(btn);
-    });
-  } else {
-    // map format
-    Object.keys(data).forEach(k=>{
-      const btn = document.createElement("button");
-      btn.className = "version-btn";
-      btn.textContent = "Zone "+k;
-      btn.dataset.zone = k;
-      btn.addEventListener("click", ()=>{ document.querySelectorAll(".version-btn").forEach(b=>b.style.transform=""); btn.style.transform="scale(1.04)"; selectedZone=k; appName="Zone "+k; document.getElementById("output").textContent = `已选择 Zone ${k}`; });
-      container.appendChild(btn);
-    });
+async function fetchApps() {
+  try {
+    const res = await fetch((API_BASE || "") + "/api/apps");
+    const data = await res.json();
+    const downloads = data.downloads || [];
+    selectApp.innerHTML = `<option value="">（默认 zone=1）</option>` + downloads.map(d => `<option value="${d.zone}">${d.name} (zone ${d.zone})</option>`).join("");
+  } catch (err) {
+    selectApp.innerHTML = `<option value="">无法加载 apps（稍后重试）</option>`;
   }
 }
-loadVersions();
+fetchApps();
 
-document.getElementById("generate").addEventListener("click", async ()=>{
-  if (!selectedZone) return alert("请选择一个版本 (zone)");
-  document.getElementById("output").textContent = "⏳ 正在生成 Token...";
+document.getElementById("genToken").addEventListener("click", async () => {
+  const zone = selectApp.value || undefined;
   try {
-    const res = await fetch(`${workerApi}/api/new-token?zone=${selectedZone}`);
+    const res = await fetch((API_BASE || "") + "/api/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(zone ? { zone } : {})
+    });
     const data = await res.json();
-    token = data.token;
-    const shortURL = `${workerApi}/t/${token}`;
-    document.getElementById("output").innerHTML = `✅ Token: <b>${token}</b>\n短链: <a href="${shortURL}" target="_blank">${shortURL}</a>`;
-    const cb = document.getElementById("copyBtn");
-    cb.style.display = "inline-block";
-    cb.onclick = ()=>{ navigator.clipboard.writeText(shortURL); cb.textContent="✅ 已复制"; setTimeout(()=>cb.textContent="📋 复制短链",1600); };
-    // 自动展开教程
-    showTutorial('mobile');
-    document.querySelector('.tutorial').scrollIntoView({behavior:'smooth'});
-  } catch (e) {
-    document.getElementById("output").textContent = "❌ 生成失败，请稍后重试";
+    if (data.token) {
+      tokenOut.textContent = data.token;
+      linkOut.textContent = "(请点击「用 Token 生成下载链接」)";
+    } else {
+      tokenOut.textContent = "生成失败: " + JSON.stringify(data);
+    }
+  } catch (err) {
+    tokenOut.textContent = "错误: " + err.message;
   }
 });
 
-function setLanguage(l){ currentLang = l; showTutorial(currentType); }
-
-function showTutorial(type){
-  currentType = type;
-  const t = document.getElementById("tutorialContent");
-  if (!token) { t.innerHTML = "<i>请先生成 Token 并复制短链后查看教程。</i>"; return; }
-  const link = `${workerApi}/t/${token}`;
-  const warn = {
-    zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！同样设备没有限制访问。不要在此页面直接点击下载链接。",
-    en: "⚠️ Please use the correct device to open the download link. Same device has no access limit. Do NOT click the link here.",
-    ms: "⚠️ Sila gunakan peranti yang betul untuk membuka pautan muat turun. Peranti sama tidak mempunyai had akses. Jangan klik pautan di sini."
-  };
-  const name = appName || "APP";
-  const templates = {
-    zh: {
-      mobile: `<h4>📱 手机/平板安装</h4>1️⃣ 复制下载短链并在目标设备上打开。 <br>2️⃣ 使用 Chrome 打开并下载安装 <b>${name}</b>。<br><br>💡 提示：每个短链最多支持 3 台不同设备。<br>${warn.zh}<br><br>🔗 短链：<a href="${link}" target="_blank">${link}</a>`,
-      tvbox: `<h4>📺 TV Box / 投影 安装</h4>同上。<br><br>🔗 短链：<a href="${link}" target="_blank">${link}</a>`,
-      androidtv: `<h4>📺 Android TV / Google TV</h4>1️⃣ 在 Play 商店安装 Downloader (AFT)。<br>2️⃣ 在 Downloader 粘贴短链并 Go。<br>3️⃣ 下载完成后安装 <b>${name}</b>。<br><br>${warn.zh}<br><br>🔗 短链：<a href="${link}" target="_blank">${link}</a>`
-    },
-    en: {
-      mobile: `<h4>📱 Mobile / Tablet</h4>Copy the short link and open it on the target device (Chrome).<br>Install <b>${name}</b>.<br><br>${warn.en}<br><br>Link: <a href="${link}" target="_blank">${link}</a>`,
-      tvbox: `<h4>📺 TV Box / Projector</h4>Same steps.<br><br>Link: <a href="${link}" target="_blank">${link}</a>`,
-      androidtv: `<h4>📺 Android TV / Google TV</h4>1) Install Downloader (AFT) from Play Store.<br>2) Paste short link in Downloader and Go.<br>3) Install <b>${name}</b>.<br><br>${warn.en}<br><br>Link: <a href="${link}" target="_blank">${link}</a>`
-    },
-    ms: {
-      mobile: `<h4>📱 Telefon / Tablet</h4>Salin pautan dan buka pada peranti sasaran (Chrome).<br>Pasang <b>${name}</b>.<br><br>${warn.ms}<br><br>Pautan: <a href="${link}" target="_blank">${link}</a>`,
-      tvbox: `<h4>📺 TV Box / Projektor</h4>Sama seperti di atas.<br><br>Pautan: <a href="${link}" target="_blank">${link}</a>`,
-      androidtv: `<h4>📺 Android TV / Google TV</h4>1) Pasang Downloader (AFT) dari Play Store.<br>2) Tampal pautan dalam Downloader dan Go.<br>3) Pasang <b>${name}</b>.<br><br>${warn.ms}<br><br>Pautan: <a href="${link}" target="_blank">${link}</a>`
+document.getElementById("useToken").addEventListener("click", async () => {
+  const token = tokenOut.textContent.trim();
+  if (!token || token.startsWith("(")) { alert("请先生成 Token"); return; }
+  const zone = selectApp.value || undefined;
+  try {
+    const res = await fetch((API_BASE || "") + "/api/link", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(zone ? { token, zone } : { token })
+    });
+    const data = await res.json();
+    if (data.link) {
+      linkOut.innerHTML = data.link;
+    } else {
+      linkOut.textContent = "生成失败: " + JSON.stringify(data);
     }
-  };
-  t.innerHTML = templates[currentLang][type];
-}
+  } catch (err) {
+    linkOut.textContent = "错误: " + err.message;
+  }
+});
 </script>
 </body>
 </html>
