@@ -1,67 +1,100 @@
+/* ============================================================
+   CONSTANTS — BASELINE SAFE
+============================================================ */
+const SIGN_SECRET = "mySuperSecretKey";
+const TOKEN_PREFIX = "TOKEN:";
+const DEV_PREFIX = "DEV:";
+const TOKEN_TTL_SECONDS = 365 * 24 * 60 * 60; // 1 year
+const MAX_DEVICES = 3;
+
+const R2_PREFIX = "private-files/";
+const DEVICE_CONFLICT_URL = "https://modskyshop168-sudo.github.io/cc/device.html";
+
+/* ============================================================
+   Frontend HTML
+============================================================ */
 const FRONTEND_HTML = `
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<title>智能下载链接生成器</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔗 智能下载链接生成器</title>
 <style>
-body{
-  font-family: system-ui, sans-serif;
-  background: radial-gradient(circle at top,#0a0f1c,#02040a);
-  color:#eaf0ff; text-align:center; padding:20px;
-}
-.box{background:#111a33;border-radius:16px;padding:20px;max-width:480px;margin:auto;
-box-shadow:0 0 20px rgba(0,0,0,0.3);}
-input{width:100%;padding:12px;font-size:18px;border-radius:8px;border:1px solid #333;background:#0b1224;color:#fff;}
-button{width:100%;padding:14px;font-size:20px;font-weight:bold;border:0;border-radius:10px;background:#4da3ff;color:#000;margin-top:10px;}
-.result{margin-top:20px;font-size:20px;word-break:break-all;}
-.lang-btn{padding:6px 14px;margin:5px;border-radius:8px;background:#334577;color:#fff;border:1px solid #7789bb;}
+  body{font-family:system-ui,sans-serif;margin:0;padding:20px;text-align:center;background:#0a0f1c;color:#eaf0ff;}
+  h1{font-size:26px;margin-bottom:10px;}
+  .version-btn{display:block;width:90%;margin:6px auto;padding:12px;background:#1f2f4a;border:none;color:#fff;border-radius:8px;cursor:pointer;font-size:16px;}
+  .selected{background:#3575ff;}
+  #generateTokenBtn{margin-top:20px;padding:14px 20px;font-size:18px;border:none;border-radius:10px;background:#3575ff;color:#fff;cursor:pointer;}
 </style>
 </head>
 <body>
 
-<h2>🔗 智能下载链接生成器</h2>
+<h1>🔗 智能下载链接生成器</h1>
+<h2 id="title">⚡ 请选择要下载的应用版本</h2>
 
-<div>
-<button class="lang-btn" onclick="setLang('zh')">中文</button>
-<button class="lang-btn" onclick="setLang('en')">English</button>
-<button class="lang-btn" onclick="setLang('ms')">BM</button>
-</div>
+<div id="versionContainer"></div>
 
-<div class="box">
-  <h3 id="t-title">点击生成 Token</h3>
-  <button onclick="gen()">⚡ 生成下载链接</button>
+<button id="generateTokenBtn">Click to Generate Token</button>
 
-  <div class="result" id="out"></div>
-</div>
+<div id="output"></div>
 
 <script>
-function setLang(l){
-  localStorage.setItem("lang",l);
-  updateText();
+const r2DownloadsEndpoint = "/r2/downloads.json";
+let selectedVersion = null;
+
+async function loadVersions() {
+  const container = document.getElementById("versionContainer");
+  try {
+    const res = await fetch(r2DownloadsEndpoint);
+    const data = await res.json();
+
+    (data.downloads || []).forEach(app => {
+      const btn = document.createElement("button");
+      btn.className = "version-btn";
+      btn.dataset.version = app.zone;
+      btn.textContent = app.name;
+
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".version-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedVersion = app.zone;
+        document.getElementById("output").textContent = "已选择：" + app.name;
+      });
+
+      container.appendChild(btn);
+    });
+
+  } catch (err) {
+    document.getElementById("output").textContent = "加载版本失败：" + err.message;
+  }
 }
 
-function updateText(){
-  const l = localStorage.getItem("lang") || "zh";
-  const t = {
-    zh: {title:"点击生成 Token"},
-    en: {title:"Click to Generate Token"},
-    ms: {title:"Klik untuk Jana Token"}
-  };
-  document.getElementById('t-title').innerText = t[l].title;
-}
+loadVersions();
 
-async function gen(){
-  const r = await fetch("/api/token");
-  const j = await r.json();
-  document.getElementById("out").innerHTML = 
-    "🔑 Token: <b>"+j.token+"</b><br><br>下载链接：<br><a href='"+j.link+"' target='_blank'>"+j.link+"</a>";
-}
+document.getElementById("generateTokenBtn").addEventListener("click", async () => {
+  if (!selectedVersion) {
+    document.getElementById("output").textContent = "❌ 请先选择一个版本";
+    return;
+  }
 
-updateText();
+  const res = await fetch("/api/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ zone: selectedVersion })
+  });
+
+  const data = await res.json();
+
+  if (data.error) {
+    document.getElementById("output").textContent = "❌ 错误：" + data.error;
+    return;
+  }
+
+  const link = location.origin + "/t/" + data.token;
+  document.getElementById("output").textContent = "✅ 下载链接已生成：\\n" + link;
+});
 </script>
 
 </body>
 </html>
-`;
