@@ -1,103 +1,67 @@
-<!doctype html>
-<html lang="zh-CN">
+const FRONTEND_HTML = `
+<!DOCTYPE html>
+<html lang="zh">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Token 下载链接生成器</title>
+<title>智能下载链接生成器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  body{font-family:system-ui,Segoe UI,Arial;background:#041022;color:#eaf0ff;padding:28px;text-align:center}
-  h1{color:#00e0ff}
-  .card{max-width:720px;margin:14px auto;padding:18px;border-radius:12px;background:rgba(255,255,255,0.03)}
-  input,select,button{padding:12px;border-radius:10px;border:none;font-size:16px}
-  button.primary{background:#ff3b3b;color:#fff;padding:14px 26px;font-weight:700;border-radius:12px}
-  button.ghost{background:#00c8d7;color:#000;margin-left:8px}
-  pre{background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;overflow:auto}
-  .row{display:flex;gap:8px;align-items:center;justify-content:center}
+body{
+  font-family: system-ui, sans-serif;
+  background: radial-gradient(circle at top,#0a0f1c,#02040a);
+  color:#eaf0ff; text-align:center; padding:20px;
+}
+.box{background:#111a33;border-radius:16px;padding:20px;max-width:480px;margin:auto;
+box-shadow:0 0 20px rgba(0,0,0,0.3);}
+input{width:100%;padding:12px;font-size:18px;border-radius:8px;border:1px solid #333;background:#0b1224;color:#fff;}
+button{width:100%;padding:14px;font-size:20px;font-weight:bold;border:0;border-radius:10px;background:#4da3ff;color:#000;margin-top:10px;}
+.result{margin-top:20px;font-size:20px;word-break:break-all;}
+.lang-btn{padding:6px 14px;margin:5px;border-radius:8px;background:#334577;color:#fff;border:1px solid #7789bb;}
 </style>
 </head>
 <body>
-  <h1>🔐 Token 下载生成器（简易）</h1>
 
-  <div class="card">
-    <div style="margin-bottom:10px">选择 App（可选）：</div>
-    <select id="selectApp" style="width:70%;max-width:420px"></select>
-    <div style="height:12px"></div>
+<h2>🔗 智能下载链接生成器</h2>
 
-    <div class="row" style="margin-bottom:12px">
-      <button id="genToken" class="primary">生成 5 位 Token</button>
-      <button id="useToken" class="ghost">用 Token 生成下载链接</button>
-    </div>
+<div>
+<button class="lang-btn" onclick="setLang('zh')">中文</button>
+<button class="lang-btn" onclick="setLang('en')">English</button>
+<button class="lang-btn" onclick="setLang('ms')">BM</button>
+</div>
 
-    <div style="text-align:left;max-width:720px;margin:0 auto">
-      <div>Token：</div>
-      <pre id="tokenOut">(尚未生成)</pre>
-      <div>下载链接：</div>
-      <pre id="linkOut">(尚未生成)</pre>
-    </div>
+<div class="box">
+  <h3 id="t-title">点击生成 Token</h3>
+  <button onclick="gen()">⚡ 生成下载链接</button>
 
-    <div style="margin-top:12px;color:#ffddcc;text-align:left;max-width:720px;margin-left:auto;margin-right:auto">
-      提示：生成的 Token 会绑定到内部 uid 并保存 1 年。Token 可选择指向某个 App（zone），也可以后用 Token 时指定 zone。
-    </div>
-  </div>
+  <div class="result" id="out"></div>
+</div>
 
 <script>
-const API_BASE = ""; // same origin (if hosted together). If Worker at app.powertech.workers.dev, set API_BASE = 'https://app.powertech.workers.dev'
-const tokenOut = document.getElementById("tokenOut");
-const linkOut = document.getElementById("linkOut");
-const selectApp = document.getElementById("selectApp");
-
-async function fetchApps() {
-  try {
-    const res = await fetch((API_BASE || "") + "/api/apps");
-    const data = await res.json();
-    const downloads = data.downloads || [];
-    selectApp.innerHTML = `<option value="">（默认 zone=1）</option>` + downloads.map(d => `<option value="${d.zone}">${d.name} (zone ${d.zone})</option>`).join("");
-  } catch (err) {
-    selectApp.innerHTML = `<option value="">无法加载 apps（稍后重试）</option>`;
-  }
+function setLang(l){
+  localStorage.setItem("lang",l);
+  updateText();
 }
-fetchApps();
 
-document.getElementById("genToken").addEventListener("click", async () => {
-  const zone = selectApp.value || undefined;
-  try {
-    const res = await fetch((API_BASE || "") + "/api/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(zone ? { zone } : {})
-    });
-    const data = await res.json();
-    if (data.token) {
-      tokenOut.textContent = data.token;
-      linkOut.textContent = "(请点击「用 Token 生成下载链接」)";
-    } else {
-      tokenOut.textContent = "生成失败: " + JSON.stringify(data);
-    }
-  } catch (err) {
-    tokenOut.textContent = "错误: " + err.message;
-  }
-});
+function updateText(){
+  const l = localStorage.getItem("lang") || "zh";
+  const t = {
+    zh: {title:"点击生成 Token"},
+    en: {title:"Click to Generate Token"},
+    ms: {title:"Klik untuk Jana Token"}
+  };
+  document.getElementById('t-title').innerText = t[l].title;
+}
 
-document.getElementById("useToken").addEventListener("click", async () => {
-  const token = tokenOut.textContent.trim();
-  if (!token || token.startsWith("(")) { alert("请先生成 Token"); return; }
-  const zone = selectApp.value || undefined;
-  try {
-    const res = await fetch((API_BASE || "") + "/api/link", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(zone ? { token, zone } : { token })
-    });
-    const data = await res.json();
-    if (data.link) {
-      linkOut.innerHTML = data.link;
-    } else {
-      linkOut.textContent = "生成失败: " + JSON.stringify(data);
-    }
-  } catch (err) {
-    linkOut.textContent = "错误: " + err.message;
-  }
-});
+async function gen(){
+  const r = await fetch("/api/token");
+  const j = await r.json();
+  document.getElementById("out").innerHTML = 
+    "🔑 Token: <b>"+j.token+"</b><br><br>下载链接：<br><a href='"+j.link+"' target='_blank'>"+j.link+"</a>";
+}
+
+updateText();
 </script>
+
 </body>
 </html>
+`;
