@@ -56,45 +56,112 @@ async function loadVersions() {
       btn.textContent = app.name;
 
       btn.addEventListener("click", () => {
-        document.querySelectorAll(".version-btn").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-        selectedVersion = app.zone;
-        document.getElementById("output").textContent = "已选择：" + app.name;
-      });
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Token 生成器</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:#0b1220;color:#e6eef8;padding:28px}
+  .card{max-width:760px;margin:20px auto;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+  label{display:block;margin:12px 0 6px;font-weight:600}
+  input,select,button,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+  button{cursor:pointer;margin-top:12px;padding:12px;font-weight:700}
+  .row{display:flex;gap:10px}
+  .small{width:160px}
+  pre{white-space:pre-wrap;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-top:10px}
+  .hint{font-size:13px;color:#9fb0d6;margin-top:8px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Token 生成器（管理界面）</h2>
+    <p class="hint">页面托管：GitHub Pages。此页面会调用你的 Cloudflare Worker API 来创建 Token 并写入 TOKENS KV。</p>
 
-      container.appendChild(btn);
-    });
+    <label for="uid">目标 UID</label>
+    <input id="uid" placeholder="输入用户 UID（例如 user_123）" />
 
-  } catch (err) {
-    document.getElementById("output").textContent = "加载版本失败：" + err.message;
-  }
-}
+    <label for="note">备注（可选）</label>
+    <input id="note" placeholder="可选：写点用途或时效信息，仅供显示" />
 
-loadVersions();
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <input id="adminKey" placeholder="管理员密钥（仅本地保存）" style="flex:1" />
+      <button id="saveKey" style="width:120px">保存密钥</button>
+    </div>
+    <div class="hint">注意：出于安全考虑，页面只在浏览器本地保存 Admin Key（localStorage），不会提交给 GitHub。</div>
 
-document.getElementById("generateTokenBtn").addEventListener("click", async () => {
-  if (!selectedVersion) {
-    document.getElementById("output").textContent = "❌ 请先选择一个版本";
-    return;
-  }
+    <div class="row" style="margin-top:14px">
+      <button id="gen" style="flex:1">生成 Token 并写入 TOKENS</button>
+      <button id="genOnly" class="small">只在前端生成</button>
+    </div>
 
-  const res = await fetch("/api/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ zone: selectedVersion })
-  });
+    <label style="margin-top:16px">生成结果</label>
+    <pre id="result">—</pre>
 
-  const data = await res.json();
+    <div class="hint">部署完成后，请把下方的 Worker API 地址填入 `API_BASE`（默认示例：<code>https://your-worker.example.workers.dev</code>）</div>
 
-  if (data.error) {
-    document.getElementById("output").textContent = "❌ 错误：" + data.error;
-    return;
-  }
+    <label style="margin-top:10px">Worker API 地址</label>
+    <input id="apiBase" placeholder="https://your-worker.example.workers.dev" />
 
-  const link = location.origin + "/t/" + data.token;
-  document.getElementById("output").textContent = "✅ 下载链接已生成：\\n" + link;
+    <div class="hint">使用方法：输入 UID → 填写管理员密钥 → 点击「生成 Token 并写入 TOKENS」。生成后会返回 token 与写入结果。</div>
+  </div>
+
+<script>
+const $ = id => document.getElementById(id);
+const storedKey = localStorage.getItem('admin_key_v1');
+if (storedKey) $('adminKey').value = storedKey;
+
+$('saveKey').addEventListener('click', ()=> {
+  localStorage.setItem('admin_key_v1', $('adminKey').value.trim());
+  alert('管理员密钥已本地保存（仅本机浏览器）。');
 });
-</script>
 
+$('genOnly').addEventListener('click', ()=> {
+  const uid = $('uid').value.trim();
+  if (!uid) { alert('请输入 UID'); return; }
+  const token = generateToken();
+  $('result').textContent = `前端生成（未写入 KV）\nUID: ${uid}\nToken: ${token}`;
+});
+
+$('gen').addEventListener('click', async ()=> {
+  const uid = $('uid').value.trim();
+  const api = $('apiBase').value.trim();
+  const adminKey = $('adminKey').value.trim() || localStorage.getItem('admin_key_v1');
+
+  if (!uid) { alert('请输入 UID'); return; }
+  if (!api) { alert('请输入 Worker API 地址'); return; }
+  if (!adminKey) { alert('请输入管理员密钥（Admin Key）'); return; }
+
+  $('result').textContent = '正在生成并写入...';
+
+  const token = generateToken();
+  try {
+    const res = await fetch(api.replace(/\/$/,'') + '/api/create-token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Key': adminKey
+      },
+      body: JSON.stringify({ token, uid, note: $('note').value || '' })
+    });
+    const json = await res.json().catch(()=>null);
+    if (!res.ok) {
+      $('result').textContent = `写入失败：${res.status} ${res.statusText}\n${json ? JSON.stringify(json):''}`;
+      return;
+    }
+    $('result').textContent = `写入成功 ✅\nUID: ${uid}\nToken: ${token}\nResponse: ${JSON.stringify(json)}`;
+  } catch (err) {
+    $('result').textContent = '网络错误：' + err;
+  }
+});
+
+function generateToken() {
+  // 32 字节 hex（可改为你自己的生成规则）
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+</script>
 </body>
 </html>
