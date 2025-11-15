@@ -26,28 +26,17 @@
   <label>选择 APP（file）</label>
   <select id="fileSelect"><option>加载中...</option></select>
 
-  <label>Admin Key（只保存在本地，不上传 GitHub）</label>
-  <div class="row">
-    <input id="adminKey" placeholder="输入 Admin Key 并保存" />
-    <button id="saveKey" class="small">保存</button>
-  </div>
-
-  <div class="row" style="margin-top:10px">
+  <div style="margin-top:12px">
     <button id="gen">生成并写入 TOKENS KV</button>
   </div>
 
   <pre id="result">—</pre>
 
-  <p style="font-size:13px;color:#9fb0d6;margin-top:8px">注意：Admin Key 请只保存在本地（localStorage）。前端不会直接使用 Cloudflare API Token。</p>
+  <p style="font-size:13px;color:#9fb0d6;margin-top:8px">注意：此页面直接请求你的 Worker（/api/create-token），不会泄露 Cloudflare 管理 Token。</p>
 </div>
 
 <script>
-const WORKER_BASE = "https://app.powertech.workers.dev"; // 修改为你的 Worker 域名如有不同
-document.getElementById('adminKey').value = localStorage.getItem('admin_key_v1') || '';
-document.getElementById('saveKey').onclick = ()=> {
-  localStorage.setItem('admin_key_v1', document.getElementById('adminKey').value.trim());
-  alert('Admin Key 已本机保存');
-};
+const WORKER_BASE = "https://app.powertech.workers.dev";
 
 async function loadDownloads(){
   try{
@@ -74,11 +63,8 @@ async function loadDownloads(){
 async function createToken(){
   const uid = document.getElementById('uid').value.trim();
   const file = document.getElementById('fileSelect').value;
-  const adminKey = document.getElementById('adminKey').value.trim() || localStorage.getItem('admin_key_v1') || '';
-
   if (!uid) { alert('请输入 UID'); return; }
   if (!file) { alert('请选择 file'); return; }
-  if (!adminKey) { alert('请输入 Admin Key 并保存'); return; }
 
   document.getElementById('result').textContent = '⏳ 生成并写入中...';
 
@@ -86,8 +72,7 @@ async function createToken(){
     const res = await fetch(WORKER_BASE + "/api/create-token", {
       method: "POST",
       headers: {
-        "Content-Type":"application/json",
-        "X-Admin-Key": adminKey
+        "Content-Type":"application/json"
       },
       body: JSON.stringify({ uid, file })
     });
