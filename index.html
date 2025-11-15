@@ -72,6 +72,19 @@ h1 {
   border-color: #6aa8ff;
 }
 
+/* 大输入框 */
+input {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.12);
+  color: white;
+}
+
 /* 主按钮 */
 button {
   width: 100%;
@@ -84,6 +97,14 @@ button {
   color: white;
   cursor: pointer;
   font-weight: bold;
+}
+
+/* 标题标签 */
+label {
+  font-size: 16px;
+  margin-top: 20px;
+  display: block;
+  opacity: 0.9;
 }
 
 /* 结果框 */
@@ -118,15 +139,18 @@ button {
   <h1>🔐 Token 管理</h1>
   <p class="subtitle">5 位短码系统 / 自动写入 KV</p>
 
+  <!-- UID 输入框（已加大） -->
   <label>UID（必填）</label>
   <input id="uid" placeholder="请输入 UID">
 
+  <!-- 主操作按钮 -->
+  <button onclick="createToken()">生成并写入 Token</button>
+
+  <!-- App 列表移动到按钮下面 -->
   <label>选择 APP（自动载入）</label>
   <div id="appButtons" class="app-buttons">
     <div style="grid-column: 1 / 3; text-align:center; opacity:.7;">加载中…</div>
   </div>
-
-  <button onclick="createToken()">生成并写入 Token</button>
 
   <div id="result" class="result"></div>
 </div>
@@ -135,7 +159,7 @@ button {
 const API = "https://app.powertech.workers.dev";
 let selectedApp = null;
 
-/* ⭐ 自动从 /r2/downloads.json 加载 APP 列表 */
+/* ⭐ 自动从 R2 加载 APP 列表 */
 async function loadApps() {
   const box = document.getElementById("appButtons");
   box.innerHTML = "<div style='grid-column:1/3;text-align:center;opacity:.7;'>加载中…</div>";
@@ -160,7 +184,7 @@ async function loadApps() {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".app-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        selectedApp = item.url;  // ⭐ 这就是写入 KV 的 file 字段
+        selectedApp = item.url;
       });
 
       if (index === 0) {
@@ -171,31 +195,24 @@ async function loadApps() {
       box.appendChild(btn);
     });
 
-  } catch(e) {
+  } catch (e) {
     box.innerHTML = "<div style='grid-column:1/3;text-align:center;color:red;'>加载失败</div>";
   }
 }
 loadApps();
 
-
-/* ⭐ 生成 token */
+/* ⭐ 生成 Token */
 async function createToken() {
   const uid = document.getElementById("uid").value.trim();
   const resultBox = document.getElementById("result");
 
-  if (!uid) {
-    showError("UID 不能为空");
-    return;
-  }
-  if (!selectedApp) {
-    showError("请选择 APP");
-    return;
-  }
+  if (!uid) return showError("UID 不能为空");
+  if (!selectedApp) return showError("请选择 APP");
 
   try {
     const res = await fetch(`${API}/api/create-token`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ uid, file: selectedApp })
     });
 
