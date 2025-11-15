@@ -2,107 +2,150 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+
+<!-- 强制电脑与手机一样的手机版布局 -->
 <meta name="viewport" content="width=430, user-scalable=no">
+
 <title>Token 管理后台</title>
 
 <style>
   body {
-    margin: 0;
-    padding: 20px;
     font-family: system-ui, sans-serif;
-    background: radial-gradient(circle at 20% 20%, #0a0f2e, #020311 60%, #000 100%);
-    color: #fff;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at top, #0a0f1c, #02040a); /* ✔ 保留你的炫背景 */
+    color: #eaf0ff;
+    display: flex;
+    justify-content: center;
   }
 
-  h2 { text-align: center; font-size: 26px; margin-bottom: 25px; }
-
-  input {
+  .container {
     width: 100%;
-    padding: 14px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: none;
+    max-width: 430px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    text-align: center;
     margin-bottom: 20px;
   }
 
-  button.main {
+  input {
     width: 100%;
-    padding: 14px;
-    font-size: 20px;
-    background: linear-gradient(90deg, #00d2ff, #007AFF);
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 10px;
     border: none;
-    border-radius: 12px;
-    color: #fff;
     margin-top: 10px;
+    box-sizing: border-box;
   }
 
-  #apps {
+  button.main-btn {
+    width: 100%;
+    padding: 16px;
+    margin-top: 15px;
+    font-size: 20px;
+    background: #007AFF;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* APP 按钮网格 2 列 */
+  .app-grid {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
   .app-btn {
-    padding: 12px;
-    background: #1a1f3c;
+    padding: 14px;
+    font-size: 16px;
     border-radius: 10px;
-    border: 2px solid #2a2f55;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid #4d6aff;
     text-align: center;
-    font-size: 15px;
+    cursor: pointer;
   }
 
   .app-btn.selected {
-    background: #007AFF;
-    border-color: #00d2ff;
+    background: #4d6aff;
   }
 
-  #result {
+  /* 成功显示区域 */
+  .result-box {
     margin-top: 25px;
-    text-align: center;
-    font-size: 18px;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.4);
+    display: none;
   }
 
   .copy-btn {
-    margin-top: 15px;
+    margin-top: 10px;
     width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    background: #00b894;
-    color: #fff;
+    padding: 15px;
     font-size: 18px;
+    border-radius: 10px;
     border: none;
+    background: #34C759;
+    color: white;
+    cursor: pointer;
   }
+
+  #msg {
+    margin-top: 15px;
+    font-size: 16px;
+  }
+
 </style>
 </head>
 
 <body>
-<h2>Token 管理后台</h2>
+<div class="container">
 
-<label>UID（必填）</label>
-<input id="uid" placeholder="请输入 UID">
+  <h2>Token 管理（5 位短码）</h2>
 
-<button class="main" onclick="generateToken()">生成并写入 Token</button>
+  <label>UID（必填）</label>
+  <input id="uid" placeholder="请输入 UID">
 
-<!-- APP 按钮区（自动生成） -->
-<div id="apps"></div>
+  <button class="main-btn" onclick="generateToken()">生成并写入 Token</button>
 
-<div id="result"></div>
+  <!-- APP 按钮容器 -->
+  <div id="appList" class="app-grid"></div>
+
+  <div id="msg"></div>
+
+  <!-- 结果显示区 -->
+  <div id="result" class="result-box">
+    <div id="downloadLink" style="word-break: break-all;"></div>
+    <button class="copy-btn" onclick="copyLink()">复制下载链接</button>
+  </div>
+
+</div>
 
 <script>
 const API = "https://app.powertech.workers.dev";
-let selectedFile = null;     // ← 永远记录当前选择的 APK
-let lastCode = null;         // ← 永远记录本次生成的 5 位短码（不会 undefined）
 
-// === 加载 R2 列表并生成按钮 ===
-async function loadApps() {
-  const box = document.getElementById("apps");
-  box.innerHTML = "<div style='grid-column:1/3;text-align:center'>加载中…</div>";
+let selectedFile = "";
+let lastGeneratedCode = "";
+
+/* 自动加载 R2 app 列表并按钮化 */
+async function loadFiles() {
+  const box = document.getElementById("appList");
+  box.innerHTML = "<div style='grid-column: span 2; text-align:center;'>加载中…</div>";
 
   try {
     const res = await fetch(API + "/r2/downloads.json");
     const data = await res.json();
+
+    if (!data.downloads || data.downloads.length === 0) {
+      box.innerHTML = "<div style='grid-column: span 2; text-align:center;'>无可用 APP</div>";
+      return;
+    }
 
     box.innerHTML = "";
 
@@ -110,75 +153,80 @@ async function loadApps() {
       const btn = document.createElement("div");
       btn.className = "app-btn";
       btn.textContent = item.name;
-      btn.onclick = () => selectApp(item.url, btn);
+
+      btn.onclick = () => {
+        selectedFile = item.url;
+
+        // highlight
+        document.querySelectorAll(".app-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      };
+
       box.appendChild(btn);
     });
 
-  } catch (e) {
-    box.innerHTML = "<div style='grid-column:1/3;text-align:center;color:red'>加载失败</div>";
+  } catch (err) {
+    box.innerHTML = "<div style='grid-column: span 2; text-align:center;'>加载失败</div>";
+    console.error(err);
   }
 }
 
-function selectApp(url, btn) {
-  selectedFile = url;   // 记录 file 正确值（不会 undefined）
 
-  document.querySelectorAll(".app-btn").forEach(b => b.classList.remove("selected"));
-  btn.classList.add("selected");
-}
-
-// === 生成随机 5 位短码 ===
-function randomCode() {
-  return Math.floor(10000 + Math.random() * 90000).toString();
-}
-
-// === 提交到 Worker（不会产生 undefined） ===
+/* 生成 Token */
 async function generateToken() {
   const uid = document.getElementById("uid").value.trim();
-  const result = document.getElementById("result");
+  const msg = document.getElementById("msg");
+  msg.textContent = "";
+  msg.style.color = "red";
 
   if (!uid) {
-    result.style.color = "red";
-    result.textContent = "请输入 UID";
+    msg.textContent = "请输入 UID";
     return;
   }
 
   if (!selectedFile) {
-    result.style.color = "red";
-    result.textContent = "请选择 APP";
+    msg.textContent = "请选择一个 APP";
     return;
   }
-
-  lastCode = randomCode();   // 保存短码 ↓↓↓
-  const body = { code: lastCode, uid, file: selectedFile };
 
   try {
     const res = await fetch(API + "/api/create-token", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
+      body: JSON.stringify({ uid, file: selectedFile })
     });
 
-    if (!res.ok) {
-      const t = await res.text();
-      throw new Error("HTTP " + res.status + "：" + t);
+    const data = await res.json();
+
+    if (!res.ok || !data.short) {
+      msg.textContent = "写入失败：" + (data.error || "未知错误");
+      return;
     }
 
-    result.style.color = "lightgreen";
-    result.innerHTML =
-      `写入成功！<br><br>
-       <b>下载链接：</b><br>
-       <a href="${API}/${lastCode}" target="_blank">${API}/${lastCode}</a><br>
-       <button class="copy-btn" onclick="copyLink()">复制下载链接</button>`;
+    lastGeneratedCode = data.short;
+
+    msg.style.color = "lime";
+    msg.textContent = "写入成功！";
+
+    // 显示结果区域
+    document.getElementById("result").style.display = "block";
+    document.getElementById("downloadLink").innerHTML =
+      `${API}/${data.short}`;
+
   } catch (e) {
-    result.style.color = "red";
-    result.textContent = "写入失败：" + e;
+    msg.textContent = "写入失败：" + e;
   }
 }
 
+/* 复制按钮 */
 function copyLink() {
-  navigator.clipboard.writeText(`${API}/${lastCode}`);
+  const url = `${API}/${lastGeneratedCode}`;
+  navigator.clipboard.writeText(url).then(() => {
+    alert("复制成功！");
+  });
 }
-loadApps();
+
+loadFiles();
 </script>
 
 </body>
