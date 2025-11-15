@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
@@ -8,7 +8,7 @@
     body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
     input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
     button { background: #007AFF; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    #msg { margin-top: 15px; color: red; }
+    #msg { margin-top: 15px; }
   </style>
 </head>
 <body>
@@ -46,14 +46,13 @@
 
         data.downloads.forEach(item => {
           const opt = document.createElement("option");
-          opt.value = item.url;  // 假设 url 字段是文件名
+          opt.value = item.url;
           opt.textContent = item.name + " (" + item.url + ")";
           sel.appendChild(opt);
         });
       } catch (e) {
         sel.innerHTML = "<option value=\"\">加载失败</option>";
         document.getElementById("msg").textContent = "加载 APK 列表错误：" + e;
-        console.error("loadFiles 错误:", e);
       }
     }
 
@@ -69,10 +68,12 @@
 
       if (!uid) {
         msgEl.textContent = "请输入 UID";
+        msgEl.style.color = "red";
         return;
       }
       if (!file) {
         msgEl.textContent = "请选择一个 APK";
+        msgEl.style.color = "red";
         return;
       }
 
@@ -80,21 +81,27 @@
       const body = { code, uid, file };
 
       try {
-        const res = await fetch(API + "/set-token", {
+        // ⬇⬇⬇ 关键修复：必须使用 /api/set-token
+        const res = await fetch(API + "/api/set-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
+
+        const data = await res.json().catch(() => ({}));
+
         if (!res.ok) {
-          const text = await res.text();
-          throw new Error("HTTP " + res.status + "：" + text);
+          msgEl.textContent = "写入失败：" + (data.error || res.status);
+          msgEl.style.color = "red";
+          return;
         }
+
         msgEl.style.color = "green";
-        msgEl.innerHTML = `写入成功！短码：<b>${code}</b><br>下载链接：<a href="${API}/${code}" target="_blank">${API}/${code}</a>`;
+        msgEl.innerHTML =
+          `写入成功！短码：<b>${code}</b><br>下载链接：<a href="${API}/${code}" target="_blank">${API}/${code}</a>`;
       } catch (e) {
         msgEl.style.color = "red";
         msgEl.textContent = "写入失败：" + e;
-        console.error("generateToken 错误:", e);
       }
     }
 
