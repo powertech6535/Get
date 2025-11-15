@@ -115,13 +115,22 @@
     </div>
   </div>
 <script>
-(function(){
-  let id = localStorage.getItem("DEVICE_ID");
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem("DEVICE_ID", id);
+(function ensureDeviceId() {
+  function getCookie(name) {
+    const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return m ? decodeURIComponent(m.pop()) : null;
   }
-  // 自动附加到所有请求头
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days||365)*24*60*60*1000);
+    document.cookie = name + "=" + encodeURIComponent(value) + "; path=/; expires=" + d.toUTCString() + "; SameSite=Lax";
+  }
+  let id = getCookie("DEVICE_ID");
+  if (!id) {
+    if (crypto && crypto.randomUUID) id = crypto.randomUUID();
+    else id = 'd-' + Math.floor(Math.random()*1e12).toString(36);
+    setCookie("DEVICE_ID", id, 365);
+  }
   window.DEVICE_ID = id;
 })();
 </script>
