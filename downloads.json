@@ -59,6 +59,16 @@
       "zone": 12,
       "name": "瓜子手机版",
       "url": "guaziyingshi.apk"
+    },
+    {
+      "zone": 13,
+      "name": "备份手机版",
+      "url": "guaziyingshi.apk"
+    },
+    {
+      "zone": 14,
+      "name": "V电台版",
+      "url": "VRadio_v2.8.8.apk"
     }
   ]
 }
