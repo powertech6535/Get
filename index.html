@@ -1,143 +1,81 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TOKEN 管理后台</title>
+<meta charset="utf-8" />
+<title>Token 管理后台</title>
 <style>
-  body {
-    font-family: system-ui, sans-serif;
-    background: #0a0f1c;
-    color: #eaf0ff;
-    padding: 20px;
-  }
-  .card {
-    background: #111827;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 420px;
-    margin: auto;
-  }
-  input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 12px;
-    border-radius: 8px;
-    border: none;
-  }
-  button {
-    background: #2563eb;
-    color: white;
-    cursor: pointer;
-  }
-  button:hover {
-    background: #1e40af;
-  }
+  body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+  input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
+  button { background: #007AFF; color: #fff; border: none; border-radius: 6px; }
 </style>
 </head>
+
 <body>
+<h2>Token 管理（5 位短码）</h2>
 
-<div class="card">
-  <h2>🔐 Token 管理后台</h2>
+<label>UID（必填）</label>
+<input id="uid" placeholder="请输入 UID">
 
-  <label>UID（必填）</label>
-  <input id="uidInput" placeholder="请输入 UID">
+<label>选择 APP（file）</label>
+<select id="file"></select>
 
-  <label>选择 APP（file）</label>
-  <select id="appSelect">
-    <option value="">加载中…</option>
-  </select>
+<button onclick="generate()">生成并写入 Token</button>
 
-  <button onclick="generateToken()">生成并写入 TOKENS KV</button>
-
-  <p id="result"></p>
-</div>
+<p id="msg"></p>
 
 <script>
-// ==========================
-// 你的 Worker 配置（已替换）
-// ==========================
-const CF_API_TOKEN = "y3qPKC2DbN_By1F8AzVSZGcXUM-fP2g77RGCDzLI";
-const ACCOUNT_ID = "a1cae400db00deda5b1111b4c615aa03";
-const KV_NAMESPACE_ID = "08f9db9c4de74ffabb56c39ae6cb470d";
+const API = "https://app.powertech.workers.dev";
 
-// ==========================
-// 加载 R2 里的 downloads.json
-// ==========================
-async function loadApps() {
+async function loadFiles() {
   try {
-    const res = await fetch("https://app.powertech.workers.dev/r2/downloads.json");
+    const res = await fetch(API + "/r2/downloads.json");
     const data = await res.json();
 
-    const select = document.getElementById("appSelect");
-    select.innerHTML = "";
+    const sel = document.getElementById("file");
+    sel.innerHTML = "";
 
-    if (!data.downloads || data.downloads.length === 0) {
-      select.innerHTML = "<option value=''>无可用 APP</option>";
-      return;
-    }
-
-    // 修复点：使用 url 字段，而不是 file
     data.downloads.forEach(item => {
       const opt = document.createElement("option");
-      opt.value = item.url;      // 👈 使用你的字段
+      opt.value = item.url;
       opt.textContent = item.name + " (" + item.url + ")";
-      select.appendChild(opt);
+      sel.appendChild(opt);
     });
-  } catch (err) {
-    document.getElementById("appSelect").innerHTML =
-      "<option value=''>加载失败</option>";
+  } catch (e) {
+    document.getElementById("file").innerHTML =
+      "<option>加载失败</option>";
   }
 }
-loadApps();
 
-// ==========================
-// 生成 5 位随机数字
-// ==========================
+loadFiles();
+
 function randomCode() {
   return Math.floor(10000 + Math.random() * 90000).toString();
 }
 
-// ==========================
-// 写入 KV
-// ==========================
-async function generateToken() {
-  const uid = document.getElementById("uidInput").value.trim();
-  const file = document.getElementById("appSelect").value;
+async function generate() {
+  const uid = document.getElementById("uid").value.trim();
+  const file = document.getElementById("file").value;
 
   if (!uid) {
     alert("请输入 UID");
     return;
   }
-  if (!file) {
-    alert("请选择一个 APP");
-    return;
-  }
 
-  const shortCode = randomCode();
+  const code = randomCode();
 
-  const value = JSON.stringify({ uid, file });
+  const body = { code, uid, file };
 
-  const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}/values/${shortCode}`;
+  const res = await fetch(API + "/set-token", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
 
-  try {
-    const res = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${CF_API_TOKEN}`,
-        "Content-Type": "text/plain"
-      },
-      body: value
-    });
-
-    if (!res.ok) throw new Error("KV 写入失败");
-
-    document.getElementById("result").innerHTML =
-      `🎉 成功！<br>短码：<b>${shortCode}</b><br>下载链接：<br>
-      <a href="https://app.powertech.workers.dev/${shortCode}" target="_blank">
-      https://app.powertech.workers.dev/${shortCode}</a>`;
-  } catch (err) {
-    document.getElementById("result").innerText = "网络或程序错误: " + err.message;
+  if (res.ok) {
+    document.getElementById("msg").innerHTML =
+      "写入成功！短码：" + code + "<br>下载链接：" + API + "/" + code;
+  } else {
+    document.getElementById("msg").innerHTML = "写入失败";
   }
 }
 </script>
