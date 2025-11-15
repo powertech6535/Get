@@ -67,101 +67,82 @@ async function loadVersions() {
   .card{max-width:760px;margin:20px auto;padding:20px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));box-shadow:0 6px 18px rgba(2,6,23,0.6)}
   label{display:block;margin:12px 0 6px;font-weight:600}
   input,select,button,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-  button{cursor:pointer;margin-top:12px;padding:12px;font-weight:700}
-  .row{display:flex;gap:10px}
-  .small{width:160px}
-  pre{white-space:pre-wrap;background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-top:10px}
-  .hint{font-size:13px;color:#9fb0d6;margin-top:8px}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>Token Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { font-family: system-ui; padding: 20px; background: #0b1224; color: #e8eeff; }
+  h2 { margin-bottom: 0.5em; }
+  input, button {
+    font-size: 18px; padding: 10px; width: 100%; margin-top: 10px;
+    border-radius: 10px; border: none;
+  }
+  button {
+    background: #4e8cff; color: white; cursor: pointer; margin-top: 15px;
+  }
+  .box {
+    margin-top: 20px; padding: 15px; background: #131b33; border-radius: 12px;
+    word-break: break-all; font-size: 18px;
+  }
 </style>
 </head>
 <body>
-  <div class="card">
-    <h2>Token 生成器（管理界面）</h2>
-    <p class="hint">页面托管：GitHub Pages。此页面会调用你的 Cloudflare Worker API 来创建 Token 并写入 TOKENS KV。</p>
 
-    <label for="uid">目标 UID</label>
-    <input id="uid" placeholder="输入用户 UID（例如 user_123）" />
+<h2>🔐 UID → Token 生成器（5 位数字）</h2>
 
-    <label for="note">备注（可选）</label>
-    <input id="note" placeholder="可选：写点用途或时效信息，仅供显示" />
+<label>请输入 UID：</label>
+<input id="uid" placeholder="例如：user123" />
 
-    <div style="display:flex;gap:10px;margin-top:10px">
-      <input id="adminKey" placeholder="管理员密钥（仅本地保存）" style="flex:1" />
-      <button id="saveKey" style="width:120px">保存密钥</button>
-    </div>
-    <div class="hint">注意：出于安全考虑，页面只在浏览器本地保存 Admin Key（localStorage），不会提交给 GitHub。</div>
+<button onclick="makeToken()">生成 TOKEN</button>
 
-    <div class="row" style="margin-top:14px">
-      <button id="gen" style="flex:1">生成 Token 并写入 TOKENS</button>
-      <button id="genOnly" class="small">只在前端生成</button>
-    </div>
-
-    <label style="margin-top:16px">生成结果</label>
-    <pre id="result">—</pre>
-
-    <div class="hint">部署完成后，请把下方的 Worker API 地址填入 `API_BASE`（默认示例：<code>https://your-worker.example.workers.dev</code>）</div>
-
-    <label style="margin-top:10px">Worker API 地址</label>
-    <input id="apiBase" placeholder="https://your-worker.example.workers.dev" />
-
-    <div class="hint">使用方法：输入 UID → 填写管理员密钥 → 点击「生成 Token 并写入 TOKENS」。生成后会返回 token 与写入结果。</div>
-  </div>
+<div id="output" class="box" style="display:none;"></div>
 
 <script>
-const $ = id => document.getElementById(id);
-const storedKey = localStorage.getItem('admin_key_v1');
-if (storedKey) $('adminKey').value = storedKey;
-
-$('saveKey').addEventListener('click', ()=> {
-  localStorage.setItem('admin_key_v1', $('adminKey').value.trim());
-  alert('管理员密钥已本地保存（仅本机浏览器）。');
-});
-
-$('genOnly').addEventListener('click', ()=> {
-  const uid = $('uid').value.trim();
-  if (!uid) { alert('请输入 UID'); return; }
-  const token = generateToken();
-  $('result').textContent = `前端生成（未写入 KV）\nUID: ${uid}\nToken: ${token}`;
-});
-
-$('gen').addEventListener('click', async ()=> {
-  const uid = $('uid').value.trim();
-  const api = $('apiBase').value.trim();
-  const adminKey = $('adminKey').value.trim() || localStorage.getItem('admin_key_v1');
-
-  if (!uid) { alert('请输入 UID'); return; }
-  if (!api) { alert('请输入 Worker API 地址'); return; }
-  if (!adminKey) { alert('请输入管理员密钥（Admin Key）'); return; }
-
-  $('result').textContent = '正在生成并写入...';
-
-  const token = generateToken();
-  try {
-    const res = await fetch(api.replace(/\/$/,'') + '/api/create-token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Admin-Key': adminKey
-      },
-      body: JSON.stringify({ token, uid, note: $('note').value || '' })
-    });
-    const json = await res.json().catch(()=>null);
-    if (!res.ok) {
-      $('result').textContent = `写入失败：${res.status} ${res.statusText}\n${json ? JSON.stringify(json):''}`;
-      return;
-    }
-    $('result').textContent = `写入成功 ✅\nUID: ${uid}\nToken: ${token}\nResponse: ${JSON.stringify(json)}`;
-  } catch (err) {
-    $('result').textContent = '网络错误：' + err;
+async function makeToken() {
+  const uid = document.getElementById("uid").value.trim();
+  if (!uid) {
+    alert("请输入 UID");
+    return;
   }
-});
 
-function generateToken() {
-  // 32 字节 hex（可改为你自己的生成规则）
-  const arr = new Uint8Array(16);
-  crypto.getRandomValues(arr);
-  return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
+  // === 随机 5 位数字 token ===
+  const token = String(Math.floor(10000 + Math.random() * 90000));
+
+  // === Cloudflare KV 写入（TOKENS） ===
+  const CF_API_TOKEN = "YOUR_API_TOKEN";  // ← 替换
+  const ACCOUNT_ID = "YOUR_ACCOUNT_ID";   // ← 替换
+  const NAMESPACE_ID = "YOUR_TOKENS_NAMESPACE_ID"; // ← 替换（KV: TOKENS）
+
+  const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces/${NAMESPACE_ID}/values/${token}`;
+
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${CF_API_TOKEN}`,
+      "Content-Type": "text/plain"
+    },
+    body: uid
+  });
+
+  if (!res.ok) {
+    alert("❌ 写入 KV 失败，请检查 API Token 权限");
+    return;
+  }
+
+  const finalURL = `https://app.powertech.workers.dev/${token}`;
+
+  document.getElementById("output").style.display = "block";
+  document.getElementById("output").innerHTML = `
+    ✅ <b>UID：</b> ${uid}<br>
+    ✅ <b>Token：</b> ${token}<br><br>
+    🔗 下载链接：<br>
+    <a href="${finalURL}" target="_blank" style="color:#7db3ff;">${finalURL}</a>
+  `;
 }
 </script>
+
 </body>
 </html>
