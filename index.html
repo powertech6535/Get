@@ -8,7 +8,7 @@
     body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
     input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
     button { background: #007AFF; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    #msg { margin-top: 15px; }
+    #msg { margin-top: 15px; color: red; }
   </style>
 </head>
 <body>
@@ -29,6 +29,9 @@
   <script>
     const API = "https://app.powertech.workers.dev";
 
+    /* ======================================
+       读取 downloads.json 列表
+    ====================================== */
     async function loadFiles() {
       const sel = document.getElementById("file");
       sel.innerHTML = "<option>加载中…</option>";
@@ -56,10 +59,10 @@
       }
     }
 
-    function randomCode() {
-      return Math.floor(10000 + Math.random() * 90000).toString();
-    }
-
+    /* ======================================
+       创建 Token
+       POST /api/create-token
+    ====================================== */
     async function generateToken() {
       const uid = document.getElementById("uid").value.trim();
       const file = document.getElementById("file").value;
@@ -68,37 +71,32 @@
 
       if (!uid) {
         msgEl.textContent = "请输入 UID";
-        msgEl.style.color = "red";
         return;
       }
       if (!file) {
         msgEl.textContent = "请选择一个 APK";
-        msgEl.style.color = "red";
         return;
       }
 
-      const code = randomCode();
-      const body = { code, uid, file };
-
       try {
-        // ⬇⬇⬇ 关键修复：必须使用 /api/set-token
-        const res = await fetch(API + "/api/set-token", {
+        const res = await fetch(API + "/api/create-token", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
+          body: JSON.stringify({ uid, file })
         });
 
-        const data = await res.json().catch(() => ({}));
-
         if (!res.ok) {
-          msgEl.textContent = "写入失败：" + (data.error || res.status);
-          msgEl.style.color = "red";
-          return;
+          const text = await res.text();
+          throw new Error("HTTP " + res.status + "：" + text);
         }
 
+        const data = await res.json();
         msgEl.style.color = "green";
-        msgEl.innerHTML =
-          `写入成功！短码：<b>${code}</b><br>下载链接：<a href="${API}/${code}" target="_blank">${API}/${code}</a>`;
+        msgEl.innerHTML = `
+          写入成功！<br>
+          短码：<b>${data.short}</b><br>
+          下载：<a href="${data.downloadUrl}" target="_blank">${data.downloadUrl}</a>
+        `;
       } catch (e) {
         msgEl.style.color = "red";
         msgEl.textContent = "写入失败：" + e;
