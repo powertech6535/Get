@@ -28,6 +28,7 @@
     margin-top: 20px;
     font-size: 18px;
     word-break: break-all;
+    white-space: pre-wrap;
   }
 </style>
 
@@ -35,41 +36,57 @@
 <body>
 
 <h1>🔗 Token 生成器</h1>
-<p>点击按钮生成一个新的安全 Token。</p>
+<p>点击按钮生成一个新的 Token。</p>
 
 <button onclick="generateToken()">Click to Generate Token</button>
 
 <div id="result"></div>
 
 <script>
+// === 你的 API 参数 ===
 const API_TOKEN = "y3qPKC2DbN_By1F8AzVSZGcXUM-fP2g77RGCDzLI";
-const ACCOUNT_ID = "08f9db9c4de74ffabb56c39ae6cb470d";
+const ACCOUNT_ID = "a1cae400db00deda5b1111b4c615aa03";
+const TOKENS_NAMESPACE_ID = "08f9db9c4de74ffabb56c39ae6cb470d";
+
+// === 生成纯数字 5 位短码 ===
+function randomShortCode() {
+  return String(Math.floor(Math.random() * 100000)).padStart(5, "0");
+}
 
 async function generateToken() {
-  document.getElementById("result").innerHTML = "⏳ 生成中…";
+  document.getElementById("result").innerHTML = "⏳ 正在生成 Token…";
+
+  const shortCode = randomShortCode();
+  const tokenValue = "GEN-" + crypto.randomUUID();
+
+  const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces/${TOKENS_NAMESPACE_ID}/values/${shortCode}`;
 
   try {
-    const resp = await fetch("https://api.cloudflare.com/client/v4/accounts/" + ACCOUNT_ID + "/storage/kv/namespaces", {
-      method: "GET",
+    const resp = await fetch(url, {
+      method: "PUT",
       headers: {
         "Authorization": "Bearer " + API_TOKEN,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "text/plain"
+      },
+      body: tokenValue
     });
 
     if (!resp.ok) {
-      document.getElementById("result").innerHTML = "❌ API 错误: " + resp.status;
+      document.getElementById("result").innerHTML =
+        "❌ API 错误: " + resp.status + "\n" + (await resp.text());
       return;
     }
 
-    const data = await resp.json();
+    const finalUrl = `https://app.powertech.workers.dev/${shortCode}`;
 
     document.getElementById("result").innerHTML =
-      "✅ Token API 测试成功<br><br><b>Response:</b><br>" +
-      JSON.stringify(data, null, 2);
+      "✅ 生成成功！\n\n" +
+      "短码：" + shortCode + "\n" +
+      "Token 值：" + tokenValue + "\n\n" +
+      "最终下载链接:\n" + finalUrl;
 
   } catch (err) {
-    document.getElementById("result").innerHTML = "⚠️ 程序错误: " + err.message;
+    document.getElementById("result").innerHTML = "⚠️ 程序错误:\n" + err.message;
   }
 }
 </script>
