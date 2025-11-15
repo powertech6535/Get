@@ -1,84 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8" />
-<title>Token 管理后台</title>
-<style>
-  body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
-  input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
-  button { background: #007AFF; color: #fff; border: none; border-radius: 6px; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token 管理后台</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
+    button { background: #007AFF; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+    #msg { margin-top: 15px; color: red; }
+  </style>
 </head>
-
 <body>
-<h2>Token 管理（5 位短码）</h2>
+  <h2>Token 管理（5 位短码）</h2>
 
-<label>UID（必填）</label>
-<input id="uid" placeholder="请输入 UID">
+  <label>UID（必填）</label>
+  <input id="uid" placeholder="请输入 UID">
 
-<label>选择 APP（file）</label>
-<select id="file"></select>
+  <label>选择 APP（file）</label>
+  <select id="file">
+    <option value="">加载中…</option>
+  </select>
 
-<button onclick="generate()">生成并写入 Token</button>
+  <button onclick="generateToken()">生成并写入 Token</button>
 
-<p id="msg"></p>
+  <p id="msg"></p>
 
-<script>
-const API = "https://app.powertech.workers.dev";
+  <script>
+    const API = "https://app.powertech.workers.dev";
 
-async function loadFiles() {
-  try {
-    const res = await fetch(API + "/r2/downloads.json");
-    const data = await res.json();
+    async function loadFiles() {
+      const sel = document.getElementById("file");
+      sel.innerHTML = "<option>加载中…</option>";
 
-    const sel = document.getElementById("file");
-    sel.innerHTML = "";
+      try {
+        const res = await fetch(API + "/r2/downloads.json");
+        if (!res.ok) throw new Error("状态 " + res.status);
+        const data = await res.json();
+        sel.innerHTML = "";
 
-    data.downloads.forEach(item => {
-      const opt = document.createElement("option");
-      opt.value = item.url;
-      opt.textContent = item.name + " (" + item.url + ")";
-      sel.appendChild(opt);
-    });
-  } catch (e) {
-    document.getElementById("file").innerHTML =
-      "<option>加载失败</option>";
-  }
-}
+        if (!data.downloads || data.downloads.length === 0) {
+          sel.innerHTML = "<option value=\"\">无可用 APK</option>";
+          return;
+        }
 
-loadFiles();
+        data.downloads.forEach(item => {
+          const opt = document.createElement("option");
+          opt.value = item.url;  // 假设 url 字段是文件名
+          opt.textContent = item.name + " (" + item.url + ")";
+          sel.appendChild(opt);
+        });
+      } catch (e) {
+        sel.innerHTML = "<option value=\"\">加载失败</option>";
+        document.getElementById("msg").textContent = "加载 APK 列表错误：" + e;
+        console.error("loadFiles 错误:", e);
+      }
+    }
 
-function randomCode() {
-  return Math.floor(10000 + Math.random() * 90000).toString();
-}
+    function randomCode() {
+      return Math.floor(10000 + Math.random() * 90000).toString();
+    }
 
-async function generate() {
-  const uid = document.getElementById("uid").value.trim();
-  const file = document.getElementById("file").value;
+    async function generateToken() {
+      const uid = document.getElementById("uid").value.trim();
+      const file = document.getElementById("file").value;
+      const msgEl = document.getElementById("msg");
+      msgEl.textContent = "";
 
-  if (!uid) {
-    alert("请输入 UID");
-    return;
-  }
+      if (!uid) {
+        msgEl.textContent = "请输入 UID";
+        return;
+      }
+      if (!file) {
+        msgEl.textContent = "请选择一个 APK";
+        return;
+      }
 
-  const code = randomCode();
+      const code = randomCode();
+      const body = { code, uid, file };
 
-  const body = { code, uid, file };
+      try {
+        const res = await fetch(API + "/set-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error("HTTP " + res.status + "：" + text);
+        }
+        msgEl.style.color = "green";
+        msgEl.innerHTML = `写入成功！短码：<b>${code}</b><br>下载链接：<a href="${API}/${code}" target="_blank">${API}/${code}</a>`;
+      } catch (e) {
+        msgEl.style.color = "red";
+        msgEl.textContent = "写入失败：" + e;
+        console.error("generateToken 错误:", e);
+      }
+    }
 
-  const res = await fetch(API + "/set-token", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  });
-
-  if (res.ok) {
-    document.getElementById("msg").innerHTML =
-      "写入成功！短码：" + code + "<br>下载链接：" + API + "/" + code;
-  } else {
-    document.getElementById("msg").innerHTML = "写入失败";
-  }
-}
-</script>
-
+    loadFiles();
+  </script>
 </body>
 </html>
