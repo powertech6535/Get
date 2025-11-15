@@ -1,95 +1,146 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Token 生成器（5位数字）</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOKEN 管理后台</title>
 <style>
-  body{font-family:system-ui,Segoe UI,Roboto; background:#081025;color:#eaf0ff;padding:20px}
-  .card{max-width:720px;margin:18px auto;padding:18px;border-radius:12px;background:rgba(255,255,255,0.02)}
-  label{display:block;margin-top:10px;font-weight:600}
-  input,select,button{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-  .row{display:flex;gap:10px}
-  .small{width:160px}
-  button{background:#3c8bff;color:white;border:none;cursor:pointer;margin-top:12px}
-  pre{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px;margin-top:12px;white-space:pre-wrap}
+  body {
+    font-family: system-ui, sans-serif;
+    background: #0a0f1c;
+    color: #eaf0ff;
+    padding: 20px;
+  }
+  .card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 420px;
+    margin: auto;
+  }
+  input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: none;
+  }
+  button {
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #1e40af;
+  }
 </style>
 </head>
 <body>
+
 <div class="card">
-  <h2>🔐 Token 管理（5 位数字）</h2>
-  <p>手动输入 UID，并选择要写入的 APK（file 字段）。</p>
+  <h2>🔐 Token 管理后台</h2>
 
   <label>UID（必填）</label>
-  <input id="uid" placeholder="例如 user_123" />
+  <input id="uidInput" placeholder="请输入 UID">
 
   <label>选择 APP（file）</label>
-  <select id="fileSelect"><option>加载中...</option></select>
+  <select id="appSelect">
+    <option value="">加载中…</option>
+  </select>
 
-  <div style="margin-top:12px">
-    <button id="gen">生成并写入 TOKENS KV</button>
-  </div>
+  <button onclick="generateToken()">生成并写入 TOKENS KV</button>
 
-  <pre id="result">—</pre>
-
-  <p style="font-size:13px;color:#9fb0d6;margin-top:8px">注意：此页面直接请求你的 Worker（/api/create-token），不会泄露 Cloudflare 管理 Token。</p>
+  <p id="result"></p>
 </div>
 
 <script>
-const WORKER_BASE = "https://app.powertech.workers.dev";
+// ==========================
+// 你的 Worker 配置（已替换）
+// ==========================
+const CF_API_TOKEN = "y3qPKC2DbN_By1F8AzVSZGcXUM-fP2g77RGCDzLI";
+const ACCOUNT_ID = "a1cae400db00deda5b1111b4c615aa03";
+const KV_NAMESPACE_ID = "08f9db9c4de74ffabb56c39ae6cb470d";
 
-async function loadDownloads(){
-  try{
-    const res = await fetch(WORKER_BASE + "/api/downloads");
-    const j = await res.json();
-    const sel = document.getElementById('fileSelect');
-    sel.innerHTML = "";
-    if (!j || !j.downloads) {
-      sel.innerHTML = "<option value='app.apk'>app.apk</option>";
+// ==========================
+// 加载 R2 里的 downloads.json
+// ==========================
+async function loadApps() {
+  try {
+    const res = await fetch("https://app.powertech.workers.dev/r2/downloads.json");
+    const data = await res.json();
+
+    const select = document.getElementById("appSelect");
+    select.innerHTML = "";
+
+    if (!data.downloads || data.downloads.length === 0) {
+      select.innerHTML = "<option value=''>无可用 APP</option>";
       return;
     }
-    j.downloads.forEach(d=> {
-      const opt = document.createElement('option');
-      opt.value = d.url;
-      opt.textContent = `${d.name} — ${d.url}`;
-      sel.appendChild(opt);
+
+    // 修复点：使用 url 字段，而不是 file
+    data.downloads.forEach(item => {
+      const opt = document.createElement("option");
+      opt.value = item.url;      // 👈 使用你的字段
+      opt.textContent = item.name + " (" + item.url + ")";
+      select.appendChild(opt);
     });
-  } catch(e) {
-    const sel = document.getElementById('fileSelect');
-    sel.innerHTML = "<option value='app.apk'>app.apk</option>";
+  } catch (err) {
+    document.getElementById("appSelect").innerHTML =
+      "<option value=''>加载失败</option>";
   }
 }
+loadApps();
 
-async function createToken(){
-  const uid = document.getElementById('uid').value.trim();
-  const file = document.getElementById('fileSelect').value;
-  if (!uid) { alert('请输入 UID'); return; }
-  if (!file) { alert('请选择 file'); return; }
+// ==========================
+// 生成 5 位随机数字
+// ==========================
+function randomCode() {
+  return Math.floor(10000 + Math.random() * 90000).toString();
+}
 
-  document.getElementById('result').textContent = '⏳ 生成并写入中...';
+// ==========================
+// 写入 KV
+// ==========================
+async function generateToken() {
+  const uid = document.getElementById("uidInput").value.trim();
+  const file = document.getElementById("appSelect").value;
+
+  if (!uid) {
+    alert("请输入 UID");
+    return;
+  }
+  if (!file) {
+    alert("请选择一个 APP");
+    return;
+  }
+
+  const shortCode = randomCode();
+
+  const value = JSON.stringify({ uid, file });
+
+  const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces/${KV_NAMESPACE_ID}/values/${shortCode}`;
 
   try {
-    const res = await fetch(WORKER_BASE + "/api/create-token", {
-      method: "POST",
+    const res = await fetch(url, {
+      method: "PUT",
       headers: {
-        "Content-Type":"application/json"
+        "Authorization": `Bearer ${CF_API_TOKEN}`,
+        "Content-Type": "text/plain"
       },
-      body: JSON.stringify({ uid, file })
+      body: value
     });
-    const json = await res.json().catch(()=>null);
-    if (!res.ok) {
-      document.getElementById('result').textContent = '写入失败: ' + (json ? JSON.stringify(json) : res.statusText);
-      return;
-    }
-    const out = `✅ 写入成功\n短码: ${json.short}\n下载链接: ${json.downloadUrl}\n\nKV 值: {"uid":"${uid}","file":"${file}"}`;
-    document.getElementById('result').textContent = out;
-  } catch(e) {
-    document.getElementById('result').textContent = '网络或程序错误: ' + e.message;
+
+    if (!res.ok) throw new Error("KV 写入失败");
+
+    document.getElementById("result").innerHTML =
+      `🎉 成功！<br>短码：<b>${shortCode}</b><br>下载链接：<br>
+      <a href="https://app.powertech.workers.dev/${shortCode}" target="_blank">
+      https://app.powertech.workers.dev/${shortCode}</a>`;
+  } catch (err) {
+    document.getElementById("result").innerText = "网络或程序错误: " + err.message;
   }
 }
-
-document.getElementById('gen').onclick = createToken;
-loadDownloads();
 </script>
+
 </body>
 </html>
