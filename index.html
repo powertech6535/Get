@@ -114,7 +114,17 @@
 
     </div>
   </div>
-
+<script>
+(function(){
+  let id = localStorage.getItem("DEVICE_ID");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("DEVICE_ID", id);
+  }
+  // 自动附加到所有请求头
+  window.DEVICE_ID = id;
+})();
+</script>
 <script>
 /* ============================
    CONFIG / STATE
