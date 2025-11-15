@@ -112,9 +112,9 @@ async function makeToken() {
   const token = String(Math.floor(10000 + Math.random() * 90000));
 
   // === Cloudflare KV 写入（TOKENS） ===
-  const CF_API_TOKEN = "YOUR_API_TOKEN";  // ← 替换
+  const CF_API_TOKEN = "y3qPKC2DbN_By1F8AzVSZGcXUM-fP2g77RGCDzLI";  // ← 替换
   const ACCOUNT_ID = "YOUR_ACCOUNT_ID";   // ← 替换
-  const NAMESPACE_ID = "YOUR_TOKENS_NAMESPACE_ID"; // ← 替换（KV: TOKENS）
+  const NAMESPACE_ID = "08f9db9c4de74ffabb56c39ae6cb470d"; // ← 替换（KV: TOKENS）
 
   const url = `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces/${NAMESPACE_ID}/values/${token}`;
 
