@@ -298,23 +298,23 @@ function showTutorial(type){
 
   // UID 显示行 (确保在教程中显示 UID)
   const uidDisplay = {
-    zh: `🆔 当前用户 (UID)：<b>${currentUid}</b><br><br>`,
-    en: `🆔 Current User (UID): <b>${currentUid}</b><br><br>`,
-    ms: `🆔 Pengguna Semasa (UID): <b>${currentUid}</b><br><br>`,
+    zh: `🆔 当前用户：<b>${currentUid}</b><br><br>`,
+    en: `🆔 Current User: <b>${currentUid}</b><br><br>`,
+    ms: `🆔 Pengguna Semasa: <b>${currentUid}</b><br><br>`,
   };
 
   // warnings
   const warn = {
-    zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！同样设备没有限制访问。<br>🚫别在这里点击下载链接",
-    en: "⚠️ Please use the correct device to open the download link. The same device has no access limit.<br>🚫Do not click the download link here.",
-    ms: "⚠️ Sila gunakan peranti yang betul untuk membuka pautan muat turun. Peranti yang sama tidak mempunyai had akses.<br>🚫Jangan klik pautan muat turun di sini."
+    zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！<br>同样设备没有限制访问。<br>🚫别在这里点击下载链接",
+    en: "⚠️ Please use the correct device to open the download link.<br> The same device has no access limit.<br>🚫Do not click the download link here.",
+    ms: "⚠️ Sila gunakan peranti yang betul untuk membuka pautan muat turun. <br>Peranti yang sama tidak mempunyai had akses.<br>🚫Jangan klik pautan muat turun di sini."
   };
 
   // texts per language & type
   const texts = {
     zh: {
       mobile: `
-<h3>📱 手机/平板版安装教程</h3>
+<h3>📱 手机/平板版安装教程</h3><br>
 ${uidDisplay.zh}
 1️⃣ 抄写“下载链接”并复制。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
@@ -327,7 +327,7 @@ ${uidDisplay.zh}
 `,
 
       tvbox: `
-<h3>📺 TV Box / 投影仪 安装教程</h3>
+<h3>📺 TV Box / 投影仪 安装教程</h3><br>
 ${uidDisplay.zh}
 1️⃣ 抄写并复制您的 <b>下载链接</b>。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
@@ -340,7 +340,7 @@ ${uidDisplay.zh}
 `,
 
       androidtv: `
-<h3>📺 Android TV / Google TV 安装教程</h3>
+<h3>📺 Android TV / Google TV 安装教程</h3><br>
 ${uidDisplay.zh}
 1️⃣ 打开 <b>Google Play 商店</b>。<br>
 2️⃣ 搜索并安装 <b>Downloader (AFT)</b>。<br>
@@ -356,37 +356,35 @@ ${uidDisplay.zh}
 
     en: {
       mobile: `
-<h3>📱 Mobile / Tablet Installation</h3>
+<h3>📱 Mobile / Tablet Installation</h3><br>
 ${uidDisplay.en}
 1️⃣ Copy the download link.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
-💡 Note: Each link supports <b>3 devices</b>. Beyond that, it expires.<br>
+💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
 🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `,
 
       tvbox: `
-<h3>📺 TV Box / Projector Installation</h3>
+<h3>📺 TV Box / Projector Installation</h3><br>
 ${uidDisplay.en}
 1️⃣ Copy your <b>download link</b>.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
-💡 Note: Each download link supports <b>3 different devices</b> before expiring.<br>
-⚠️ Please use the correct device.<br>
-👉 Same device = unlimited usage.<br>
-🚫 Do NOT click the link here!<br><br>
+💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
+${warn.en}<br><br>
 🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `,
 
       androidtv: `
-<h3>📺 Android TV / Google TV Installation</h3>
+<h3>📺 Android TV / Google TV Installation</h3><br>
 ${uidDisplay.en}
 1️⃣ Open <b>Google Play Store</b>.<br>
 2️⃣ Install <b>Downloader (AFT)</b>.<br>
 3️⃣ Open Downloader and enter the link.<br>
 4️⃣ Install <b>${selectedAppName}</b>.<br><br>
-💡 Note: Max 3 devices.<br>
+💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
 🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `
@@ -394,35 +392,35 @@ ${warn.en}<br><br>
 
     ms: {
       mobile: `
-<h3>📱 Pemasangan Telefon / Tablet</h3>
+<h3>📱 Pemasangan Telefon / Tablet</h3><br>
 ${uidDisplay.ms}
 1️⃣ Salin pautan muat turun.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal pautan untuk muat turun aplikasi <b>${selectedAppName}</b>.<br><br>
-💡 Nota: Maksimum <b>3 peranti</b> sahaja.<br>
+💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
 🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `,
 
       tvbox: `
-<h3>📺 Pemasangan TV Box / Projektor</h3>
+<h3>📺 Pemasangan TV Box / Projektor</h3><br>
 ${uidDisplay.ms}
 1️⃣ Salin pautan muat turun anda.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal dan buka pautan untuk memasang <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
-⚠️ Guna peranti yang betul.<br><br>
+${warn.ms}<br><br>
 🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `,
 
       androidtv: `
-<h3>📺 Versi Android TV / Google TV</h3>
+<h3>📺 Versi Android TV / Google TV</h3><br>
 ${uidDisplay.ms}
 1️⃣ Buka <b>Google Play Store</b>.<br>
 2️⃣ Pasang aplikasi <b>Downloader (AFT)</b>.<br>
 3️⃣ Tampal pautan pendek dan tekan "Go".<br>
 4️⃣ Pasang <b>${selectedAppName}</b>.<br><br>
-💡 Nota: 3 peranti maksimum.<br>
+💡  Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
 🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
 `
