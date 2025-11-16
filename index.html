@@ -134,7 +134,8 @@ let selectedFile = "";    // selected file name (url)
 let selectedAppName = ""; // app display name
 let lastShort = "";       // last generated short code
 let lastDownloadUrl = ""; // last download full url
-let currentUid = "";      // <-- 新增：保存当前已成功写入的 UID
+let currentUid = "";      // 保存当前已成功写入的 UID
+let currentPurchaseDate = null; // <-- 新增：保存 Token 生成的日期对象
 let currentLang = "zh";   // zh | en | ms
 let currentType = "mobile"; // mobile | tvbox | androidtv
 let generating = false;
@@ -237,7 +238,8 @@ el("#generateBtn").addEventListener("click", async (ev) => {
 
     lastShort = short;
     lastDownloadUrl = downloadUrl || "";
-    currentUid = uid; // <-- 成功后保存 UID
+    currentUid = uid; 
+    currentPurchaseDate = new Date(); // <-- 成功后保存当前日期
 
     showMsg("写入成功！", "#bfffcf");
     showResult(true, lastDownloadUrl);
@@ -290,19 +292,24 @@ function showTutorial(type){
   const tutorial = el("#tutorialContent");
   const copyBtn = el("#copyTutorial");
 
-  if(!lastDownloadUrl || !selectedAppName){
+  if(!lastDownloadUrl || !selectedAppName || !currentPurchaseDate){
     tutorial.innerHTML = "<i>请先生成短链接后查看教程。</i>";
     copyBtn.classList.add("hidden");
     return;
   }
+  
+  // --- 日期格式化 ---
+  const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const zhDate = currentPurchaseDate.toLocaleDateString('zh-CN', dateOptions);
+  const enDate = currentPurchaseDate.toLocaleDateString('en-US', dateOptions);
+  const msDate = currentPurchaseDate.toLocaleDateString('ms-MY', dateOptions);
 
-  // UID 显示行 (确保在教程中显示 UID)
+  // UID & Date Display Row
   const uidDisplay = {
-    zh: `🆔 当前用户：<b>${currentUid}</b><br><br>`,
-    en: `🆔 Current User: <b>${currentUid}</b><br><br>`,
-    ms: `🆔 Pengguna Semasa: <b>${currentUid}</b><br><br>`,
+    zh: `🆔 当前用户 (UID)：<b>${currentUid}</b><br>📅 购买/生成日期：<b>${zhDate}</b><br><br>`,
+    en: `🆔 Current User (UID): <b>${currentUid}</b><br>📅 Purchase/Gen Date: <b>${enDate}</b><br><br>`,
+    ms: `🆔 Pengguna Semasa (UID): <b>${currentUid}</b><br>📅 Tarikh Pembelian/Jana: <b>${msDate}</b><br><br>`,
   };
-
   // warnings
   const warn = {
     zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！<br>同样设备没有限制访问。<br>🚫别在这里点击下载链接",
