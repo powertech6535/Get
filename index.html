@@ -114,8 +114,11 @@
 
     </div>
   </div>
-<script>
-/ 简单 UUID 生成（保持同一设备 = 同一个 x-device-id）
+       
+  <script>
+/* ============================
+   SIMPLE UUID GENERATOR
+   ============================ */
 function getDeviceId() {
   let id = localStorage.getItem("x-device-id");
   if (!id) {
@@ -124,8 +127,7 @@ function getDeviceId() {
   }
   return id;
 }
-</script>
-<script>
+
 /* ============================
    CONFIG / STATE
    ============================ */
@@ -135,6 +137,7 @@ let selectedFile = "";    // selected file name (url)
 let selectedAppName = ""; // app display name
 let lastShort = "";       // last generated short code
 let lastDownloadUrl = ""; // last download full url
+let currentUid = "";      // <-- 新增：保存当前已成功写入的 UID
 let currentLang = "zh";   // zh | en | ms
 let currentType = "mobile"; // mobile | tvbox | androidtv
 let generating = false;
@@ -237,6 +240,7 @@ el("#generateBtn").addEventListener("click", async (ev) => {
 
     lastShort = short;
     lastDownloadUrl = downloadUrl || "";
+    currentUid = uid; // <-- UID 赋值
 
     showMsg("写入成功！", "#bfffcf");
     showResult(true, lastDownloadUrl);
@@ -295,11 +299,21 @@ function showTutorial(type){
     return;
   }
 
+  // --- 新增：UID 显示行 ---
+  const uidDisplay = {
+    zh: `🆔 当前用户 (UID)：<b>${currentUid}</b><br><br>`,
+    en: `🆔 Current User (UID): <b>${currentUid}</b><br><br>`,
+    ms: `🆔 Pengguna Semasa (UID): <b>${currentUid}</b><br><br>`,
+  };
+
   // warnings
   const warn = {
-    zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！同样设备没有限制访问。🚫别在这里点击下载链接",
-    en: "⚠️ Please use the correct device to open the download link. The same device has no access limit.🚫Do not click the download link here.",
-    ms: "⚠️ Sila gunakan peranti yang betul untuk membuka pautan muat turun. Peranti yang sama tidak mempunyai had akses.🚫Jangan klik pautan muat turun di sini."
+    zh: "⚠️ 请使用相对应的设备输入下载链接，不要用其他设备打开！同样设备没有限制访问。<br>
+         🚫别在这里点击下载链接",
+    en: "⚠️ Please use the correct device to open the download link. The same device has no access limit.<br>
+         🚫Do not click the download link here.",
+    ms: "⚠️ Sila gunakan peranti yang betul untuk membuka pautan muat turun. Peranti yang sama tidak mempunyai had akses.<br>
+         🚫Jangan klik pautan muat turun di sini."
   };
 
   // texts per language & type
@@ -307,7 +321,7 @@ function showTutorial(type){
     zh: {
       mobile: `
 <h3>📱 手机/平板版安装教程</h3>
-1️⃣ 抄写“下载链接”并复制。<br>
+${uidDisplay.zh} 1️⃣ 抄写“下载链接”并复制。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
 3️⃣ 粘贴链接并打开，下载安装 <b>${selectedAppName}</b>。<br><br>
 💡 <b>提示：</b> 每个下载链接最多支持 <b>3 台设备</b> 使用，超过 3 台设备访问后，链接会 <b>自动失效</b>。<br>
@@ -319,7 +333,7 @@ function showTutorial(type){
 
       tvbox: `
 <h3>📺 TV Box / 投影仪 安装教程</h3>
-1️⃣ 抄写并复制您的 <b>下载链接</b>。<br>
+${uidDisplay.zh} 1️⃣ 抄写并复制您的 <b>下载链接</b>。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
 3️⃣ 粘贴链接并打开页面，下载安装 <b>${selectedAppName}</b>。<br><br>
 💡 <b>提示：</b> 每个下载链接最多支持 <b>3 台设备</b> 使用，超过 3 台设备访问后，链接会 <b>自动失效</b>。<br>
@@ -331,7 +345,7 @@ function showTutorial(type){
 
       androidtv: `
 <h3>📺 Android TV / Google TV 安装教程</h3>
-1️⃣ 打开 <b>Google Play 商店</b>。<br>
+${uidDisplay.zh} 1️⃣ 打开 <b>Google Play 商店</b>。<br>
 2️⃣ 搜索并安装 <b>Downloader (AFT)</b>。<br>
 3️⃣ 打开 <b>Downloader (AFT)</b>，粘贴短链接并点击“Go”。<br>
 4️⃣ 下载完成后选择“安装” <b>${selectedAppName}</b>。<br><br>
@@ -346,7 +360,7 @@ function showTutorial(type){
     en: {
       mobile: `
 <h3>📱 Mobile / Tablet Installation</h3>
-1️⃣ Copy the download link.<br>
+${uidDisplay.en} 1️⃣ Copy the download link.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>. Beyond that, it expires.<br>
@@ -356,7 +370,7 @@ ${warn.en}<br><br>
 
       tvbox: `
 <h3>📺 TV Box / Projector Installation</h3>
-1️⃣ Copy your <b>download link</b>.<br>
+${uidDisplay.en} 1️⃣ Copy your <b>download link</b>.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each download link supports <b>3 different devices</b> before expiring.<br>
@@ -368,7 +382,7 @@ ${warn.en}<br><br>
 
       androidtv: `
 <h3>📺 Android TV / Google TV Installation</h3>
-1️⃣ Open <b>Google Play Store</b>.<br>
+${uidDisplay.en} 1️⃣ Open <b>Google Play Store</b>.<br>
 2️⃣ Install <b>Downloader (AFT)</b>.<br>
 3️⃣ Open Downloader and enter the link.<br>
 4️⃣ Install <b>${selectedAppName}</b>.<br><br>
@@ -381,7 +395,7 @@ ${warn.en}<br><br>
     ms: {
       mobile: `
 <h3>📱 Pemasangan Telefon / Tablet</h3>
-1️⃣ Salin pautan muat turun.<br>
+${uidDisplay.ms} 1️⃣ Salin pautan muat turun.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal pautan untuk muat turun aplikasi <b>${selectedAppName}</b>.<br><br>
 💡 Nota: Maksimum <b>3 peranti</b> sahaja.<br>
@@ -391,7 +405,7 @@ ${warn.ms}<br><br>
 
       tvbox: `
 <h3>📺 Pemasangan TV Box / Projektor</h3>
-1️⃣ Salin pautan muat turun anda.<br>
+${uidDisplay.ms} 1️⃣ Salin pautan muat turun anda.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal dan buka pautan untuk memasang <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
@@ -401,7 +415,7 @@ ${warn.ms}<br><br>
 
       androidtv: `
 <h3>📺 Versi Android TV / Google TV</h3>
-1️⃣ Buka <b>Google Play Store</b>.<br>
+${uidDisplay.ms} 1️⃣ Buka <b>Google Play Store</b>.<br>
 2️⃣ Pasang aplikasi <b>Downloader (AFT)</b>.<br>
 3️⃣ Tampal pautan pendek dan tekan "Go".<br>
 4️⃣ Pasang <b>${selectedAppName}</b>.<br><br>
@@ -434,10 +448,11 @@ document.addEventListener("DOMContentLoaded", ()=> {
   showTutorial(currentType);
 });
 
-// expose setLanguage/showTutorial to inline onclicks
+// expose setLanguage/showTutorial/copyTutorial to inline onclicks
 window.setLanguage = setLanguage;
 window.showTutorial = showTutorial;
 window.copyTutorial = copyTutorial;
+window.getDeviceId = getDeviceId; // 暴露 getDeviceId (虽然未在 generateBtn 中使用, 但逻辑已保留)
 </script>
 </body>
 </html>
