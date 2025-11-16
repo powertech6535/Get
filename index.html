@@ -306,9 +306,9 @@ function showTutorial(type){
 
   // UID & Date Display Row
   const uidDisplay = {
-    zh: `🆔 当前用户 (UID)：<b>${currentUid}</b><br>📅 购买/生成日期：<b>${zhDate}</b><br><br>`,
-    en: `🆔 Current User (UID): <b>${currentUid}</b><br>📅 Purchase/Gen Date: <b>${enDate}</b><br><br>`,
-    ms: `🆔 Pengguna Semasa (UID): <b>${currentUid}</b><br>📅 Tarikh Pembelian/Jana: <b>${msDate}</b><br><br>`,
+    zh: `🆔 当前用户：<b>${currentUid}</b><br>📅 购买日期：<b>${zhDate}</b><br><br>`,
+    en: `🆔 Current User: <b>${currentUid}</b><br>📅 Purchase Date: <b>${enDate}</b><br><br>`,
+    ms: `🆔 Pengguna Semasa: <b>${currentUid}</b><br>📅 Tarikh Pembelian: <b>${msDate}</b><br><br>`,
   };
   // warnings
   const warn = {
@@ -321,7 +321,7 @@ function showTutorial(type){
   const texts = {
     zh: {
       mobile: `
-<h3>📱 手机/平板版安装教程</h3><br>
+<h3>📱 手机/平板版安装教程</h3>
 ${uidDisplay.zh}
 1️⃣ 抄写“下载链接”并复制。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
@@ -334,7 +334,7 @@ ${uidDisplay.zh}
 `,
 
       tvbox: `
-<h3>📺 TV Box / 投影仪 安装教程</h3><br>
+<h3>📺 TV Box / 投影仪 安装教程</h3>
 ${uidDisplay.zh}
 1️⃣ 抄写并复制您的 <b>下载链接</b>。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
@@ -347,7 +347,7 @@ ${uidDisplay.zh}
 `,
 
       androidtv: `
-<h3>📺 Android TV / Google TV 安装教程</h3><br>
+<h3>📺 Android TV / Google TV 安装教程</h3>
 ${uidDisplay.zh}
 1️⃣ 打开 <b>Google Play 商店</b>。<br>
 2️⃣ 搜索并安装 <b>Downloader (AFT)</b>。<br>
@@ -363,7 +363,7 @@ ${uidDisplay.zh}
 
     en: {
       mobile: `
-<h3>📱 Mobile / Tablet Installation</h3><br>
+<h3>📱 Mobile / Tablet Installation</h3>
 ${uidDisplay.en}
 1️⃣ Copy the download link.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
@@ -374,7 +374,7 @@ ${warn.en}<br><br>
 `,
 
       tvbox: `
-<h3>📺 TV Box / Projector Installation</h3><br>
+<h3>📺 TV Box / Projector Installation</h3>
 ${uidDisplay.en}
 1️⃣ Copy your <b>download link</b>.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
@@ -385,7 +385,7 @@ ${warn.en}<br><br>
 `,
 
       androidtv: `
-<h3>📺 Android TV / Google TV Installation</h3><br>
+<h3>📺 Android TV / Google TV Installation</h3>
 ${uidDisplay.en}
 1️⃣ Open <b>Google Play Store</b>.<br>
 2️⃣ Install <b>Downloader (AFT)</b>.<br>
