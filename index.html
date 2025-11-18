@@ -246,9 +246,15 @@ el("#generateBtn").addEventListener("click", async (ev) => {
 
     // show copy link handler
     el("#copyLinkBtn").onclick = () => {
-      if(!lastDownloadUrl) return;
-      navigator.clipboard.writeText(lastDownloadUrl).then(()=> alert("下载链接已复制"));
-    };
+  if(!lastDownloadUrl) return;
+
+  // 移除 https:// 或 http://
+  let codeOnly = lastDownloadUrl.replace(/^https?:\/\//, "");
+
+  navigator.clipboard.writeText(codeOnly).then(() => {
+    alert("短码已复制：" + codeOnly);
+  });
+};
 
     // show tutorial area & auto scroll -> mobile
     el("#tutorialBox").classList.remove("hidden");
