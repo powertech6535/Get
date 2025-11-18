@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=430, user-scalable=no">
-<title>Token 管理后台</title>
+<title>APP Token管理</title>
 <style>
   :root{
     --accent:#4d6aff;
@@ -66,8 +66,8 @@
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>🔐 Token 管理（5 位短码）</h1>
-      <div class="sub">UID → 选择 APP → 生成短链 → 查看教程（多语）</div>
+      <h1>🔐 APP Token</h1>
+      <div class="sub">UID → 选择 APP → 生成短链 → 查看教程</div>
 
       <label for="uid">UID（必填）</label>
       <input id="uid" placeholder="请输入 UID，例如：user_123">
@@ -312,9 +312,9 @@ function showTutorial(type){
 
   // UID & Date Display Row
   const uidDisplay = {
-    zh: `🆔 当前用户：<b>${currentUid}</b><br>📅 购买日期：<b>${zhDate}</b><br><br>`,
-    en: `🆔 Current User: <b>${currentUid}</b><br>📅 Purchase Date: <b>${enDate}</b><br><br>`,
-    ms: `🆔 Pengguna Semasa: <b>${currentUid}</b><br>📅 Tarikh Pembelian: <b>${msDate}</b><br><br>`,
+    zh: `🆔 用户：<b>${currentUid}</b><br>📅 购买日期：<b>${zhDate}</b><br><br>`,
+    en: `🆔 User: <b>${currentUid}</b><br>📅 Purchase Date: <b>${enDate}</b><br><br>`,
+    ms: `🆔 Pengguna: <b>${currentUid}</b><br>📅 Tarikh Pembelian: <b>${msDate}</b><br><br>`,
   };
   // warnings
   const warn = {
@@ -328,114 +328,114 @@ function showTutorial(type){
     zh: {
       mobile: `
 <h3>📱 手机/平板版安装教程</h3>
-${uidDisplay.zh}
-1️⃣ 抄写“下载链接”并复制。<br>
+1️⃣ 抄写并复制您的“下载链接”并复制。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
 3️⃣ 粘贴链接并打开，下载安装 <b>${selectedAppName}</b>。<br><br>
 💡 <b>提示：</b> 每个下载链接最多支持 <b>3 台设备</b> 使用，超过 3 台设备访问后，链接会 <b>自动失效</b>。<br>
 ⚠️ <b>请使用对应的设备输入下载链接，不要让其他设备打开！</b><br>
 👉 <b>同一台设备多次使用不受限制。</b><br>
 🚫 <b>不要在此页面直接点击下载链接！</b><br><br>
-🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.zh}
 `,
 
       tvbox: `
 <h3>📺 TV Box / 投影仪 安装教程</h3>
-${uidDisplay.zh}
-1️⃣ 抄写并复制您的 <b>下载链接</b>。<br>
+1️⃣ 抄写下来 <b>下载链接</b>。<br>
 2️⃣ 打开 <b>Google Chrome</b> 浏览器。<br>
-3️⃣ 粘贴链接并打开页面，下载安装 <b>${selectedAppName}</b>。<br><br>
+3️⃣ 输入链接并打开页面，下载安装 <b>${selectedAppName}</b>。<br><br>
 💡 <b>提示：</b> 每个下载链接最多支持 <b>3 台设备</b> 使用，超过 3 台设备访问后，链接会 <b>自动失效</b>。<br>
 ⚠️ <b>请使用对应的设备输入下载链接，不要让其他设备打开！</b><br>
 👉 <b>同一台设备多次使用不受限制。</b><br>
 🚫 <b>不要在此页面直接点击下载链接！</b><br><br>
-🔗 下载链接：<br><h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 下载链接：<br><h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3><br>
+${uidDisplay.zh}
 `,
 
       androidtv: `
 <h3>📺 Android TV / Google TV 安装教程</h3>
-${uidDisplay.zh}
 1️⃣ 打开 <b>Google Play 商店</b>。<br>
-2️⃣ 搜索并安装 <b>Downloader (AFT)</b>。<br>
-3️⃣ 打开 <b>Downloader (AFT)</b>，粘贴短链接并点击“Go”。<br>
+2️⃣ 搜索并安装 <b>Downloader (AFTV)</b>。<br>
+3️⃣ 打开 <b>Downloader (AFTV)</b>，粘贴短链接并点击“Go”。<br>
 4️⃣ 下载完成后选择“安装” <b>${selectedAppName}</b>。<br><br>
 💡 <b>提示：</b> 每个下载链接最多支持 <b>3 台设备</b>，超过后会自动失效。<br>
 ⚠️ <b>请使用正确设备输入下载链接！</b><br>
 👉 <b>同一设备无限制。</b><br>
 🚫 <b>不要在此页面点击下载链接！</b><br><br>
-🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.zh}
 `
     },
 
     en: {
       mobile: `
 <h3>📱 Mobile / Tablet Installation</h3>
-${uidDisplay.en}
 1️⃣ Copy the download link.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.en}
 `,
 
       tvbox: `
 <h3>📺 TV Box / Projector Installation</h3>
-${uidDisplay.en}
 1️⃣ Copy your <b>download link</b>.<br>
 2️⃣ Open <b>Google Chrome</b> browser.<br>
-3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
+3️⃣ input the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.en}
 `,
 
       androidtv: `
 <h3>📺 Android TV / Google TV Installation</h3>
-${uidDisplay.en}
 1️⃣ Open <b>Google Play Store</b>.<br>
-2️⃣ Install <b>Downloader (AFT)</b>.<br>
+2️⃣ Install <b>Downloader (AFTV)</b>.<br>
 3️⃣ Open Downloader and enter the link.<br>
 4️⃣ Install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.en}
 `
     },
 
     ms: {
       mobile: `
 <h3>📱 Pemasangan Telefon / Tablet</h3><br>
-${uidDisplay.ms}
 1️⃣ Salin pautan muat turun.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal pautan untuk muat turun aplikasi <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.ms}
 `,
 
       tvbox: `
 <h3>📺 Pemasangan TV Box / Projektor</h3><br>
-${uidDisplay.ms}
 1️⃣ Salin pautan muat turun anda.<br>
 2️⃣ Buka pelayar <b>Google Chrome</b>.<br>
 3️⃣ Tampal dan buka pautan untuk memasang <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.ms}
 `,
 
       androidtv: `
 <h3>📺 Versi Android TV / Google TV</h3><br>
-${uidDisplay.ms}
 1️⃣ Buka <b>Google Play Store</b>.<br>
-2️⃣ Pasang aplikasi <b>Downloader (AFT)</b>.<br>
+2️⃣ Pasang aplikasi <b>Downloader (AFTV)</b>.<br>
 3️⃣ Tampal pautan pendek dan tekan "Go".<br>
 4️⃣ Pasang <b>${selectedAppName}</b>.<br><br>
 💡  Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3><br>
+${uidDisplay.ms}
 `
     }
   };
