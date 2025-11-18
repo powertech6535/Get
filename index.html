@@ -336,7 +336,7 @@ ${uidDisplay.zh}
 ⚠️ <b>请使用对应的设备输入下载链接，不要让其他设备打开！</b><br>
 👉 <b>同一台设备多次使用不受限制。</b><br>
 🚫 <b>不要在此页面直接点击下载链接！</b><br><br>
-🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `,
 
       tvbox: `
@@ -363,7 +363,7 @@ ${uidDisplay.zh}
 ⚠️ <b>请使用正确设备输入下载链接！</b><br>
 👉 <b>同一设备无限制。</b><br>
 🚫 <b>不要在此页面点击下载链接！</b><br><br>
-🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 下载链接：<h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `
     },
 
@@ -376,7 +376,7 @@ ${uidDisplay.en}
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `,
 
       tvbox: `
@@ -387,7 +387,7 @@ ${uidDisplay.en}
 3️⃣ Paste the link to download and install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `,
 
       androidtv: `
@@ -399,7 +399,7 @@ ${uidDisplay.en}
 4️⃣ Install <b>${selectedAppName}</b>.<br><br>
 💡 Note: Each link supports <b>3 devices</b>.<br> Beyond that, it expires.<br>
 ${warn.en}<br><br>
-🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Link: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `
     },
 
@@ -412,7 +412,7 @@ ${uidDisplay.ms}
 3️⃣ Tampal pautan untuk muat turun aplikasi <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `,
 
       tvbox: `
@@ -423,7 +423,7 @@ ${uidDisplay.ms}
 3️⃣ Tampal dan buka pautan untuk memasang <b>${selectedAppName}</b>.<br><br>
 💡 Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `,
 
       androidtv: `
@@ -435,7 +435,7 @@ ${uidDisplay.ms}
 4️⃣ Pasang <b>${selectedAppName}</b>.<br><br>
 💡  Perhatian: Setiap pautan hanya untuk <b>3 peranti berlainan</b>.<br>
 ${warn.ms}<br><br>
-🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl}</a></h3>
+🔗 Pautan: <h3><a href="${lastDownloadUrl}" target="_blank">${lastDownloadUrl.replace(/^https?:\/\//, "")}</a></h3>
 `
     }
   };
