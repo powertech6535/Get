@@ -43,13 +43,62 @@
   },
 
   "MOBILE": {
-    "brands": [
-      "iphone", "samsung", "xiaomi", "redmi", "poco",
-      "oppo", "vivo", "realme", "honor", "huawei",
-      "oneplus", "pixel", "asus", "nokia"
-    ],
-    "patterns": [
-      "mobile", "android", "ios"
-    ]
-  }
+  "brands": [
+    "iphone", "ipad", "ipod",
+
+    "samsung", "galaxy", "samsung s", "sm-a", "sm-g", "sm-n", "sm-m",
+    "samsung z", "fold", "flip",
+
+    "xiaomi", "redmi", "mi ", "poco", "pocophone",
+
+    "oppo", "reno", "find x", "oppo a", "oppo k",
+
+    "vivo", "vivo y", "vivo x", "vivo v", "iqoo",
+
+    "realme", "realme gt", "realme c", "realme x",
+
+    "huawei", "honor", "mate", "nova", "p20", "p30", "p40", "p50", "p60",
+
+    "google pixel", "pixel 2", "pixel 3", "pixel 4", "pixel 5",
+    "pixel 6", "pixel 7", "pixel 8", "pixel 9",
+
+    "sony", "xperia",
+
+    "oneplus", "oneplus nord",
+
+    "motorola", "moto g", "moto e", "moto x", "moto z",
+
+    "asus", "rog phone", "zenfone",
+
+    "nokia", "nokia g", "nokia x", "nokia c",
+
+    "nothing phone"
+  ],
+
+  "patterns": [
+    "android", "ios", "mobile", "smartphone",
+
+    "sm-",        // Samsung
+    "rmx",        // Realme
+    "m20", "m21", "m30", "a20", "a30", "a50", "a70", "n986", "g9", "g88", // Samsung/other
+
+    "2106", "2201", "2211", "2304", "2312",   // Xiaomi/Redmi model IDs
+    "m2007", "m2102", "m2103", "m2104",       // Xiaomi/Redmi older
+    "v21", "v23", "v25", "y21", "y33",        // Vivo common patterns
+    "cph", "pct", "paxm",                     // Oppo model prefixes
+    "rmx",                                     // Realme all models
+    "ane-", "eva-", "lha-",                    // Huawei P / Mate patterns
+    "glk-", "neh-", "rky-",                    // Honor model prefixes
+
+    "pixel", "g-", "gx",                       // Google Pixel known patterns
+    "xq-", "so-",                              // Sony Xperia
+    "asus_", "zs",                             // Asus ROG/Zenfone
+    "xt",                                      // Motorola Moto G/E/X series
+
+    "a001", "2208", "2303", "e6883",           // Generic Android phone codes
+    "pafm00", "pdem10", "vita",                // Oppo / Huawei / Nokia patterns
+
+    "iphone", "iph", "apple", "16,1", "17,2", "18,1", "19,2" // Apple identifiers
+  ]
+}
 }
