@@ -1,0 +1,55 @@
+{
+  "TV": {
+    "brands": [
+      "sony", "bravia", "philips tv", "sharp tv", "panasonic tv",
+      "tcl tv", "hisense tv", "xiaomi tv", "mi tv", "coocaa",
+      "skyworth tv", "samsungtv", "lg tv", "webos", "tizen",
+      "google tv"
+    ],
+    "models": [
+      "xbr", "kd-", "ke-", "xr-", "oled", "uhd", "4k", "8k",
+      "fire tv", "roku", "appletv", "fhd_tv", "smarttv"
+    ]
+  },
+
+  "TVBOX": {
+    "chips": [
+      "amlogic", "s905", "s905x", "s905x2", "s905x3", "s905x4",
+      "s912", "s922", "s922x", "s928", "rk3228", "rk3318",
+      "rk3328", "rk3566", "rk3568", "allwinner", "h616",
+      "h618", "mt8695"
+    ],
+    "models": [
+      "x96", "x96 max", "h96", "h96 max", "h96 pro",
+      "tx3", "tx6", "tx3 mini", "tx8", "tx9", "tx9 pro",
+      "t95", "t95 max", "t95z", "t95m", "t98", "t68",
+      "tanix", "magicsee", "zyxel", "mecool", "km2",
+      "km7", "km9", "km6", "u2c", "u4c", "u5pvr",
+      "a95x", "a95x f3", "a95x max", "a95x plus",
+      "x88 pro", "x88 king", "x88 max",
+      "mi box", "mi box s", "mi tv stick",
+      "fire stick", "fire tv stick"
+    ]
+  },
+
+  "TABLET": {
+    "brands": [
+      "ipad", "huawei pad", "matepad", "lenovo tb", "samsung tab",
+      "galaxy tab", "redmi pad"
+    ],
+    "patterns": [
+      "tablet", "pad", "sm-t", "tb-", "jellybean tablet"
+    ]
+  },
+
+  "MOBILE": {
+    "brands": [
+      "iphone", "samsung", "xiaomi", "redmi", "poco",
+      "oppo", "vivo", "realme", "honor", "huawei",
+      "oneplus", "pixel", "asus", "nokia"
+    ],
+    "patterns": [
+      "mobile", "android", "ios"
+    ]
+  }
+}
