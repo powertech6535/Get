@@ -2,27 +2,10 @@
 #EXTM3U billed-msg=" 🌐1 id 1 Decive💯Buy at Powertech Digital (24-Hour Auto Update ip)(Stable Server ip)🌐"
 #EXTM3U vod_library="https://powertech6535.github.io/vod/"
 
+#EXTINF:-1 group-title="Order ID at PowerTech Digital SHOPEE" group-logo="https://i.ibb.co/QjfyDNYS/Logo-pw.jpg" tvg-id="PowerTech" ch-number="90" tvg-name="PowerTech" tvg-logo="https://i.ibb.co/QjfyDNYS/Logo-pw.jpg", ID ORIGINAL POWERTECH DI SHOPEE PowerTech Digital
+https://pwbtw.com/method_input_URL
 
-#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS Backup" tvg-logo="https://divign0fdw3sv.cloudfront.net/Images/ChannelLogo/contenthub/536_144.png" group-title="ASTRO SPORTS Backup",811 Astro Premier League 1 ((Backup))
-https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
 
-# --- 主要源 (Primary Source) ---
-#EXTINF:-1 tvg-id="AstroSupersport1" tvg-name="ASTRO SPORTS Backup" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
-https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2  
-
-# --- 备用源 (Fallback Source) ---
-#EXTINF:-1 tvg-id="AstroSupersport1" tvg-name="ASTRO SPORTS Backup" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
-https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
-
-#EXTM3U
-
-# --- 主要源 (Primary) ---
-#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
-https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2  <-- 链接 A
-
-# --- 备用源 (Fallback) ---
-#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
-https://smart.946985.filegear-sg.me/smart.php?id=go_assp1    <-- 链接 B
 
 
 
@@ -31,7 +14,7 @@ https://smart.946985.filegear-sg.me/smart.php?id=go_assp1    <-- 链接 B
 # --- 【新闻女王粤语】文件夹 ---
 
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
-#EXTINF:-1 type="video" group-logo="" group-title="新闻女王粤语" tvg-id="新闻女王粤语" tvg-logo="https://img2.ms39pn.com/cdn-cgi/image/quality=100,height=640/upload/vod/2025-11/202511051762327502.jpg",新闻女王2粤语 01
+#EXTINF:-1 type="" group-logo="" group-title="新闻女王粤语" tvg-id="新闻女王粤语" tvg-logo="https://img2.ms39pn.com/cdn-cgi/image/quality=100,height=640/upload/vod/2025-11/202511051762327502.jpg",新闻女王2粤语 01
 https://wjm.eny7kg.com/decry/vd/20251105/Y2I4ODBjMDU1N/153148/1920_1080/aac/h264/hls/decrypt/index.m3u8
 
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
@@ -55,53 +38,332 @@ https://wjm.eny7kg.com/decry/vd/20250917/YTcxMDE0NTIyNzN/213021/1920_1080/aac/h2
 #EXTINF:-1 type="" group-logo="" group-title="金式森林粤语" tvg-id="金式森林粤语" tvg-logo="https://img2.ms39pn.com/cdn-cgi/image/quality=100,height=640/upload/vod/2025-09/p2925207790.jpg",金式森林粤语 02
 https://wjm.eny7kg.com/decry/vd/20250917/NDJhNTc0ZmI2OD/213018/1920_1080/aac/h264/hls/decrypt/index.m3u8
 
-SMT-Sports体育,#genre#
-Astro Premier League 1,https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
-Astro EPL 1 backup,https://smart.946985.filegear-sg.me/smart.php?id=go_assp1x
-Astro Premier League 2,https://smart.946985.filegear-sg.me/smart.php?id=go_assp2
-Astro Grandstand,https://smart.946985.filegear-sg.me/smart.php?id=go_assp3
-Astro Football,https://smart.946985.filegear-sg.me/smart.php?id=go_assp4
-Astro Sports Plus,https://smart.946985.filegear-sg.me/smart.php?id=go_sportsplus
-Astro Badminton 1,https://smart.946985.filegear-sg.me/smart.php?id=go_badminton1
-Astro Badminton 2,https://smart.946985.filegear-sg.me/smart.php?id=go_badminton2
-Astro W-Sports,https://smart.946985.filegear-sg.me/smart.php?id=go_assp5
-Supersports 1,https://smart.946985.filegear-sg.me/smart.php?id=Assp1
-Supersports 2,https://smart.946985.filegear-sg.me/smart.php?id=Assp2
-Supersports 3,https://smart.946985.filegear-sg.me/smart.php?id=Assp3
-Supersports 4,https://smart.946985.filegear-sg.me/smart.php?id=Assp4
-WWE,https://smart.946985.filegear-sg.me/smart.php?id=Wwe
-Fight Sports,https://smart.946985.filegear-sg.me/smart.php?id=Fs
-NBA TV,https://smart.946985.filegear-sg.me/smart.php?id=Nba
-Astro Cricket,https://smart.946985.filegear-sg.me/smart.php?id=Acricket
-Astro Golf,https://smart.946985.filegear-sg.me/smart.php?id=Agolf
-Tnt Sports 1,https://smart.946985.filegear-sg.me/smart.php?id=6fac0aaead
-TNT Sports 2,https://smart.946985.filegear-sg.me/smart.php?id=d9a76a79cc
-TNT Sports 3,https://smart.946985.filegear-sg.me/smart.php?id=5fea4d73db
-TNT Sports 4,https://smart.946985.filegear-sg.me/smart.php?id=tntsport4
-Sony Ten 1,https://smart.946985.filegear-sg.me/smart.php?id=ten1_raj
-Sony Ten 2,https://smart.946985.filegear-sg.me/smart.php?id=ten2_raj
-Sony Ten 3,https://smart.946985.filegear-sg.me/smart.php?id=ten3_raj
-SPOTV 1 HD,https://smart.946985.filegear-sg.me/smart.php?id=go_spotv
-SPO TV 2,https://smart.946985.filegear-sg.me/smart.php?id=go_spotv2
-Skysports F1,https://smart.946985.filegear-sg.me/smart.php?id=tiankongf1
-Skysports Cricket,https://smart.946985.filegear-sg.me/smart.php?id=tiankongcricket
-Skysports EPL,https://smart.946985.filegear-sg.me/smart.php?id=tiankongepl
-Skysports Main Event,https://smart.946985.filegear-sg.me/smart.php?id=tiankongmain
-Skysports News,https://smart.946985.filegear-sg.me/smart.php?id=tiankongnews
-Skysports Mix,https://smart.946985.filegear-sg.me/smart.php?id=tiankongmix
-CCTV-5 体育频道,https://smart.946985.filegear-sg.me/smart.php?id=cctv5
-CCTV-5+ 体育赛事 HD,https://smart.946985.filegear-sg.me/smart.php?id=cctv5plus
-爱尔达体育2台,https://smart.946985.filegear-sg.me/smart.php?id=eltasport2_twn
-爱尔达体育3台,https://smart.946985.filegear-sg.me/smart.php?id=eltasport3_twn
-Rugby Pass TV,https://smart.946985.filegear-sg.me/smart.php?id=Rugbypasstv
-RTM Sports HD,https://smart.946985.filegear-sg.me/smart.php?id=Rtmsport
-Arena,https://smart.946985.filegear-sg.me/smart.php?id=Arena
-Arena 2,https://smart.946985.filegear-sg.me/smart.php?id=Arena2
-BolaArena 1,https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena1
-BolaArena 2,https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2
-Astro Beinsports 1,https://smart.946985.filegear-sg.me/smart.php?id=Astrobein1
-Astro Beinsports 2,https://smart.946985.filegear-sg.me/smart.php?id=Astrobein2
-Astro Beinsports 3,https://smart.946985.filegear-sg.me/smart.php?id=Astrobein3
+#EXTM3U
+
+# --- 【Astro/TVB 主源 + 新备用源】---
+
+#EXTINF:-1 tvg-id="AstroAEC" tvg-name="Astro AEC" tvg-logo="https://img.logo-astro.com/AstroAEC.png" channel-number="306" group-title="Astro Chinese Backup",Astro AEC (旧主源)
+http://php.jdshipin.com/smt.php?id=AEC
+
+#EXTINF:-1 tvg-id="AstroAEC" tvg-name="Astro AEC Backup" tvg-logo="https://img.logo-astro.com/AstroAEC.png" channel-number="306" group-title="Astro Chinese Backup",AEC (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=AEC
+
+
+#EXTINF:-1 tvg-id="AstroWLT" tvg-name="Astro Wah Lai Toi" tvg-logo="https://img.logo-astro.com/AstroWLT.png" channel-number="311" group-title="Astro Chinese Backup",华丽台 HD （Wah Lai Toi）
+https://smart.946985.filegear-sg.me/smart.php?id=Wlt
+
+
+#EXTINF:-1 tvg-id="AstroHuaHee" tvg-name="Astro Hua Hee Tai" tvg-logo="https://img.logo-astro.com/AstroHuaHee.png" channel-number="333" group-title="Astro Chinese Backup",Astro欢喜台 (旧主源)
+http://php.jdshipin.com/smt.php?id=Huahee
+
+#EXTINF:-1 tvg-id="AstroHuaHee" tvg-name="Astro Hua Hee Tai Backup" tvg-logo="https://img.logo-astro.com/AstroHuaHee.png" channel-number="333" group-title="Astro Chinese Backup",欢喜台 HD （Hua Hee Tai） (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Huahee
+
+
+#EXTINF:-1 tvg-id="AstroQJ" tvg-name="Astro Quan Jia HD" tvg-logo="https://img.logo-astro.com/AstroQJ.png" channel-number="308" group-title="Astro Chinese Backup",Astro QJ (旧主源)
+http://php.jdshipin.com/smt.php?id=Quanjia
+
+#EXTINF:-1 tvg-id="AstroQJ" tvg-name="Astro Quan Jia HD Backup" tvg-logo="https://img.logo-astro.com/AstroQJ.png" channel-number="308" group-title="Astro Chinese Backup",Astro QJ (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Quanjia
+
+
+#EXTINF:-1 tvg-id="TVBJade" tvg-name="TVB Jade" tvg-logo="https://img.logo-tvb.com/TVBJade.png" channel-number="300" group-title="Astro Chinese Backup",翡翠台 (旧主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=fct
+
+#EXTINF:-1 tvg-id="TVBJade" tvg-name="TVB Jade Backup" tvg-logo="https://img.logo-tvb.com/TVBJade.png" channel-number="300" group-title="Astro Chinese Backup",TVB Jade (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Tvbjade
+
+
+#EXTINF:-1 tvg-id="TVBAsia" tvg-name="TVB Asia" tvg-logo="https://img.logo-tvb.com/TVBAsia.png" channel-number="302" group-title="Astro Chinese Backup",TVB Asia (旧主源 - 无)
+
+#EXTINF:-1 tvg-id="TVBAsia" tvg-name="TVB Asia Backup" tvg-logo="https://img.logo-tvb.com/TVBAsia.png" channel-number="302" group-title="Astro Chinese Backup",TVB Asia (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Tvbasia
+
+
+#EXTINF:-1 tvg-id="TVBEntNews" tvg-name="TVB Ent. News" tvg-logo="https://img.logo-tvb.com/TVBEntNews.png" channel-number="319" group-title="Astro Chinese Backup",TVB娱乐新闻台 (旧主源)
+http://php.jdshipin.com/smt.php?id=Tvbentertainment
+
+#EXTINF:-1 tvg-id="TVBEntNews" tvg-name="TVB Ent. News Backup" tvg-logo="https://img.logo-tvb.com/TVBEntNews.png" channel-number="319" group-title="Astro Chinese Backup",TVB Entertainment (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Tvbentertainment
+
+
+#EXTINF:-1 tvg-id="TVBClassic" tvg-name="TVB Classic" tvg-logo="https://img.logo-tvb.com/TVBClassic.png" channel-number="309" group-title="Astro Chinese Backup",千禧经典台 (旧主源)
+http://php.jdshipin.com/smt.php?id=Tvbclassic
+
+#EXTINF:-1 tvg-id="TVBClassic" tvg-name="TVB Classic Backup" tvg-logo="https://img.logo-tvb.com/TVBClassic.png" channel-number="309" group-title="Astro Chinese Backup",TVB Classic (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Tvbclassic
+
+
+#EXTINF:-1 tvg-id="AstroAOD" tvg-name="Astro AOD" tvg-logo="https://img.logo-astro.com/AstroAOD.png" channel-number="350" group-title="Astro Chinese Backup",Astro AOD (旧主源)
+http://php.jdshipin.com/smt.php?id=Aodhd
+
+#EXTINF:-1 tvg-id="AstroAOD" tvg-name="Astro AOD Backup" tvg-logo="https://img.logo-astro.com/AstroAOD.png" channel-number="350" group-title="Astro Chinese Backup",AOD (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Aodhd
+
+
+#EXTINF:-1 tvg-id="AstroOne" tvg-name="Astro One" tvg-logo="https://img.logo-astro.com/AstroOne.png" channel-number="393" group-title="Astro Chinese Backup",One (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=One
+
+
+#EXTINF:-1 tvg-id="TVBGalaxy" tvg-name="TVB Xing He" tvg-logo="https://img.logo-tvb.com/TVBGalaxy.png" channel-number="310" group-title="Astro Chinese Backup",TVB星河 (旧主源)
+http://php.jdshipin.com/smt.php?id=Xinhe
+
+#EXTINF:-1 tvg-id="TVBGalaxy" tvg-name="TVB Xing He Backup" tvg-logo="https://img.logo-tvb.com/TVBGalaxy.png" channel-number="310" group-title="Astro Chinese Backup",TVB 星河台 Xing He (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Xinhe
+
+
+#EXTINF:-1 tvg-id="iQiyi" tvg-name="iQiyi" tvg-logo="https://img.logo-iqiyi.com/iQiyi.png" channel-number="" group-title="Astro Chinese Backup",爱奇艺 (旧主源)
+http://php.jdshipin.com/smt.php?id=Qiyi
+
+#EXTINF:-1 tvg-id="iQiyi" tvg-name="iQiyi Backup" tvg-logo="https://img.logo-iqiyi.com/iQiyi.png" channel-number="" group-title="Astro Chinese Backup",爱奇艺 iQiyi (新备用)
+https://smart.946985.filegear-sg.me/smart.php?id=Qiyi
+
+
+# --- 【旧列表中的其余频道】 ---
+#EXTINF:-1 tvg-id="TVBNews" tvg-name="TVB News" tvg-logo="https://img.logo-tvb.com/TVBNews.png" channel-number="318" group-title="Astro Chinese Backup",无线新闻台
+http://php.jdshipin.com/smt.php?id=inews_twn
+
+#EXTINF:-1 tvg-id="TVBJade" tvg-name="TVB Jade Backup 2" tvg-logo="https://img.logo-tvb.com/TVBJade.png" channel-number="300" group-title="Astro Chinese Backup",翡翠台 (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=fct2
+
+#EXTINF:-1 tvg-id="TVBJade" tvg-name="TVB Jade Backup 3" tvg-logo="https://img.logo-tvb.com/TVBJade.png" channel-number="300" group-title="Astro Chinese Backup",翡翠台 (备用 3)
+http://php.jdshipin.com/TVOD/iptv.php?id=fct3
+
+#EXTINF:-1 tvg-id="TVBJade" tvg-name="TVB Jade Backup 4" tvg-logo="https://img.logo-tvb.com/TVBJade.png" channel-number="300" group-title="Astro Chinese Backup",翡翠台 (备用 4)
+http://php.jdshipin.com/TVOD/iptv.php?id=fct4
+
+#EXTINF:-1 tvg-id="TVBPearl" tvg-name="TVB Pearl" tvg-logo="https://img.logo-tvb.com/TVBPearl.png" channel-number="301" group-title="Astro Chinese Backup",明珠台 (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=mzt
+
+#EXTINF:-1 tvg-id="TVBPearl" tvg-name="TVB Pearl Backup 2" tvg-logo="https://img.logo-tvb.com/TVBPearl.png" channel-number="301" group-title="Astro Chinese Backup",明珠台 (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=mzt2
+
+#EXTINF:-1 tvg-id="TVBJ1" tvg-name="TVB J1" tvg-logo="https://img.logo-tvb.com/TVBJ1.png" channel-number="312" group-title="Astro Chinese Backup",翡翠台北美版(TVB J1)
+http://php.jdshipin.com/TVOD/iptv.php?id=j1
+
+#EXTINF:-1 tvg-id="TVBJ1_2" tvg-name="TVB J1" tvg-logo="https://img.logo-tvb.com/TVBJ1.png" channel-number="312" group-title="Astro Chinese Backup",TVB J1
+http://php.jdshipin.com/TVOD/iptv.php?id=tvbj1
+
+#EXTINF:-1 tvg-id="TVBPlus" tvg-name="TVB Plus" tvg-logo="https://img.logo-tvb.com/TVBPlus.png" channel-number="313" group-title="Astro Chinese Backup",TVB Plus (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=j2
+
+#EXTINF:-1 tvg-id="TVBPlus_B2" tvg-name="TVB Plus B2" tvg-logo="https://img.logo-tvb.com/TVBPlus.png" channel-number="313" group-title="Astro Chinese Backup",TVB Plus (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=tvbp
+
+#EXTINF:-1 tvg-id="ViuTV" tvg-name="ViuTV" tvg-logo="https://img.logo-viutv.com/ViuTV.png" channel-number="99" group-title="Astro Chinese Backup",VIUTV (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=viutv
+
+#EXTINF:-1 tvg-id="ViuTV_B2" tvg-name="ViuTV B2" tvg-logo="https://img.logo-viutv.com/ViuTV.png" channel-number="99" group-title="Astro Chinese Backup",VIUTV (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=viutv2
+
+#EXTINF:-1 tvg-id="HOYTV" tvg-name="HOY TV" tvg-logo="https://img.logo-hoytv.com/HOYTV.png" channel-number="331" group-title="Astro Chinese Backup",HOY TV (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=hoytv
+
+#EXTINF:-1 tvg-id="HOYTV_B2" tvg-name="HOY TV B2" tvg-logo="https://img.logo-hoytv.com/HOYTV.png" channel-number="331" group-title="Astro Chinese Backup",HOY TV (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=hoytv2
+
+#EXTINF:-1 tvg-id="RTHK31" tvg-name="RTHK 31" tvg-logo="https://img.logo-rthk.com/RTHK31.png" channel-number="335" group-title="Astro Chinese Backup",RTHK31
+http://php.jdshipin.com/TVOD/iptv.php?id=rthk31
+
+#EXTINF:-1 tvg-id="RTHK32" tvg-name="RTHK 32" tvg-logo="https://img.logo-rthk.com/RTHK32.png" channel-number="336" group-title="Astro Chinese Backup",RTHK32
+http://php.jdshipin.com/TVOD/iptv.php?id=rthk32
+
+#EXTINF:-1 tvg-id="PhoenixChinese" tvg-name="Phoenix Chinese" tvg-logo="https://img.logo-phoenix.com/PhoenixChinese.png" channel-number="315" group-title="Astro Chinese Backup",凤凰中文 (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhzw
+
+#EXTINF:-1 tvg-id="PhoenixChinese_B2" tvg-name="Phoenix Chinese B2" tvg-logo="https://img.logo-phoenix.com/PhoenixChinese.png" channel-number="315" group-title="Astro Chinese Backup",凤凰中文 (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhzw2
+
+#EXTINF:-1 tvg-id="PhoenixInfoNews" tvg-name="Phoenix InfoNews" tvg-logo="https://img.logo-phoenix.com/PhoenixInfoNews.png" channel-number="316" group-title="Astro Chinese Backup",凤凰资讯 (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhzx
+
+#EXTINF:-1 tvg-id="PhoenixInfoNews_B2" tvg-name="Phoenix InfoNews B2" tvg-logo="https://img.logo-phoenix.com/PhoenixInfoNews.png" channel-number="316" group-title="Astro Chinese Backup",凤凰资讯 (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhzx2
+
+#EXTINF:-1 tvg-id="PhoenixHK" tvg-name="Phoenix HK" tvg-logo="https://img.logo-phoenix.com/PhoenixHK.png" channel-number="317" group-title="Astro Chinese Backup",凤凰香港 (主源 1)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhhk
+
+#EXTINF:-1 tvg-id="PhoenixHK_B2" tvg-name="Phoenix HK B2" tvg-logo="https://img.logo-phoenix.com/PhoenixHK.png" channel-number="317" group-title="Astro Chinese Backup",凤凰香港 (备用 2)
+http://php.jdshipin.com/TVOD/iptv.php?id=fhhk2
+
+#EXTINF:-1 tvg-id="Celestial" tvg-name="Celestial Movies" tvg-logo="https://img.logo-celestial.com/Celestial.png" channel-number="320" group-title="Astro Chinese Backup",天映频道
+http://php.jdshipin.com/smt.php?id=Celestial
+
+#EXTINF:-1 tvg-id="CelestialClassic" tvg-name="Celestial Classic" tvg-logo="https://img.logo-celestial.com/CelestialClassic.png" channel-number="321" group-title="Astro Chinese Backup",天映经典
+http://php.jdshipin.com/smt.php?id=Celestial2
+
+#EXTINF:-1 tvg-id="MeiYaMovie" tvg-name="Mei Ya Movie" tvg-logo="https://img.logo-meiya.com/MeiYaMovie.png" channel-number="" group-title="Astro Chinese Backup",美亚电影
+http://php.jdshipin.com/TVOD/iptv.php?id=meiya
+
+#EXTINF:-1 tvg-id="RewindClassic" tvg-name="Rewind Classic" tvg-logo="https://img.logo-misc.com/RewindClassic.png" channel-number="" group-title="Astro Chinese Backup",重温经典
+http://php.jdshipin.com/TVOD/iptv.php?id=cwjd
+
+#EXTINF:-1 tvg-id="BaoHe" tvg-name="Bao He" tvg-logo="https://img.logo-misc.com/BaoHe.png" channel-number="" group-title="Astro Chinese Backup",宝盒没宝
+https://gitee.com/baohe2025/bh/raw/master/bh.mp4
+
+#EXTINF:-1 tvg-id="GuangdongZJ" tvg-name="Guangdong Zhujiang" tvg-logo="https://img.logo-gd.com/GuangdongZJ.png" channel-number="" group-title="Astro Chinese Backup",广东珠江
+http://php.jdshipin.com/TVOD/iptv.php?id=gdzj
+
+#EXTINF:-1 tvg-id="GuangdongSports" tvg-name="Guangdong Sports" tvg-logo="https://img.logo-gd.com/GuangdongSports.png" channel-number="" group-title="Astro Chinese Backup",广东体育
+http://php.jdshipin.com/TVOD/iptv.php?id=gdty
+
+#EXTINF:-1 tvg-id="AomenAoshi" tvg-name="Aomen Aoshi" tvg-logo="https://img.logo-aomen.com/AomenAoshi.png" channel-number="" group-title="Astro Chinese Backup",澳视澳门
+http://php.jdshipin.com/TVOD/iptv.php?id=asam
+
+#EXTINF:-1 tvg-id="AomenSatellite" tvg-name="Aomen Satellite" tvg-logo="https://img.logo-aomen.com/AomenSatellite.png" channel-number="" group-title="Astro Chinese Backup",澳视卫星
+http://php.jdshipin.com/TVOD/iptv.php?id=as
+
+#EXTINF:-1 tvg-id="CCTV1HKMO" tvg-name="CCTV-1 HK/MO" tvg-logo="https://img.logo-cctv.com/CCTV1HKMO.png" channel-number="" group-title="Astro Chinese Backup",CCTV1港澳版
+http://php.jdshipin.com/TVOD/iptv.php?id=rthk33
+
+
+
+# --- 【Astro Premier League 1】(自动切换源) ---
+#EXTINF:-1 tvg-id="AstroPremierLeague1" tvg-name="Astro Premier League 1" tvg-logo="https://img.logo-astro.com/AstroPremierLeague1.png" channel-number="811" group-title="Astro Sports Backup",Astro Premier League 1 (主源)
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
+
+#EXTINF:-1 tvg-id="AstroPremierLeague1" tvg-name="Astro Premier League 1 Backup" tvg-logo="https://img.logo-astro.com/AstroPremierLeague1.png" channel-number="811" group-title="Astro Sports Backup",Astro EPL 1 (备用源)
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp1x
+
+
+# --- 其他 Astro 体育频道 ---
+#EXTINF:-1 tvg-id="AstroPremierLeague2" tvg-name="Astro Premier League 2" tvg-logo="https://img.logo-astro.com/AstroPremierLeague2.png" channel-number="812" group-title="Astro Sports Backup",Astro Premier League 2
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp2
+
+#EXTINF:-1 tvg-id="AstroGrandstand" tvg-name="Astro Grandstand" tvg-logo="https://img.logo-astro.com/AstroGrandstand.png" channel-number="810" group-title="Astro Sports Backup",Astro Grandstand
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp3
+
+#EXTINF:-1 tvg-id="AstroFootball" tvg-name="Astro Football" tvg-logo="https://img.logo-astro.com/AstroFootball.png" channel-number="814" group-title="Astro Sports Backup",Astro Football
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp4
+
+#EXTINF:-1 tvg-id="AstroSportsPlus" tvg-name="Astro Sports Plus" tvg-logo="https://img.logo-astro.com/AstroSportsPlus.png" channel-number="817" group-title="Astro Sports Backup",Astro Sports Plus
+https://smart.946985.filegear-sg.me/smart.php?id=go_sportsplus
+
+#EXTINF:-1 tvg-id="AstroBadminton1" tvg-name="Astro Badminton 1" tvg-logo="https://img.logo-astro.com/AstroBadminton1.png" channel-number="815" group-title="Astro Sports Backup",Astro Badminton 1
+https://smart.946985.filegear-sg.me/smart.php?id=go_badminton1
+
+#EXTINF:-1 tvg-id="AstroBadminton2" tvg-name="Astro Badminton 2" tvg-logo="https://img.logo-astro.com/AstroBadminton2.png" channel-number="816" group-title="Astro Sports Backup",Astro Badminton 2
+https://smart.946985.filegear-sg.me/smart.php?id=go_badminton2
+
+#EXTINF:-1 tvg-id="AstroWSports" tvg-name="Astro W-Sports" tvg-logo="https://img.logo-astro.com/AstroWSports.png" channel-number="826" group-title="Astro Sports Backup",Astro W-Sports
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp5
+
+#EXTINF:-1 tvg-id="AstroSupersports1" tvg-name="Astro Supersports 1" tvg-logo="https://img.logo-astro.com/AstroSupersports1.png" channel-number="811" group-title="Astro Sports Backup",Supersports 1
+https://smart.946985.filegear-sg.me/smart.php?id=Assp1
+
+#EXTINF:-1 tvg-id="AstroSupersports2" tvg-name="Astro Supersports 2" tvg-logo="https://img.logo-astro.com/AstroSupersports2.png" channel-number="812" group-title="Astro Sports Backup",Supersports 2
+https://smart.946985.filegear-sg.me/smart.php?id=Assp2
+
+#EXTINF:-1 tvg-id="AstroSupersports3" tvg-name="Astro Supersports 3" tvg-logo="https://img.logo-astro.com/AstroSupersports3.png" channel-number="813" group-title="Astro Sports Backup",Supersports 3
+https://smart.946985.filegear-sg.me/smart.php?id=Assp3
+
+#EXTINF:-1 tvg-id="AstroSupersports4" tvg-name="Astro Supersports 4" tvg-logo="https://img.logo-astro.com/AstroSupersports4.png" channel-number="814" group-title="Astro Sports Backup",Supersports 4
+https://smart.946985.filegear-sg.me/smart.php?id=Assp4
+
+#EXTINF:-1 tvg-id="AstroArena" tvg-name="Astro Arena" tvg-logo="https://img.logo-astro.com/AstroArena.png" channel-number="801" group-title="Astro Sports Backup",Arena
+https://smart.946985.filegear-sg.me/smart.php?id=Arena
+
+#EXTINF:-1 tvg-id="AstroArena2" tvg-name="Astro Arena 2" tvg-logo="https://img.logo-astro.com/AstroArena2.png" channel-number="802" group-title="Astro Sports Backup",Arena 2
+https://smart.946985.filegear-sg.me/smart.php?id=Arena2
+
+#EXTINF:-1 tvg-id="AstroBolaArena1" tvg-name="Astro BolaArena 1" tvg-logo="https://img.logo-astro.com/AstroBolaArena1.png" channel-number="803" group-title="Astro Sports Backup",BolaArena 1
+https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena1
+
+#EXTINF:-1 tvg-id="AstroBolaArena2" tvg-name="Astro BolaArena 2" tvg-logo="https://img.logo-astro.com/AstroBolaArena2.png" channel-number="804" group-title="Astro Sports Backup",BolaArena 2
+https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2
+
+#EXTINF:-1 tvg-id="AstroBeinsports1" tvg-name="Astro Beinsports 1" tvg-logo="https://img.logo-astro.com/AstroBeinsports1.png" channel-number="820" group-title="Astro Sports Backup",Astro Beinsports 1
+https://smart.946985.filegear-sg.me/smart.php?id=Astrobein1
+
+#EXTINF:-1 tvg-id="AstroBeinsports2" tvg-name="Astro Beinsports 2" tvg-logo="https://img.logo-astro.com/AstroBeinsports2.png" channel-number="821" group-title="Astro Sports Backup",Astro Beinsports 2
+https://smart.946985.filegear-sg.me/smart.php?id=Astrobein2
+
+#EXTINF:-1 tvg-id="AstroBeinsports3" tvg-name="Astro Beinsports 3" tvg-logo="https://img.logo-astro.com/AstroBeinsports3.png" channel-number="822" group-title="Astro Sports Backup",Astro Beinsports 3
+https://smart.946985.filegear-sg.me/smart.php?id=Astrobein3
+
+#EXTINF:-1 tvg-id="AstroCricket" tvg-name="Astro Cricket" tvg-logo="https://img.logo-astro.com/AstroCricket.png" channel-number="832" group-title="Astro Sports Backup",Astro Cricket
+https://smart.946985.filegear-sg.me/smart.php?id=Acricket
+
+#EXTINF:-1 tvg-id="AstroGolf" tvg-name="Astro Golf" tvg-logo="https://img.logo-astro.com/AstroGolf.png" channel-number="831" group-title="Astro Sports Backup",Astro Golf
+https://smart.946985.filegear-sg.me/smart.php?id=Agolf
+
+
+# --- 其他国际体育频道 ---
+#EXTINF:-1 tvg-id="WWE" tvg-name="WWE" tvg-logo="https://img.logo-misc.com/WWE.png" channel-number="" group-title="Astro Sports Backup",WWE
+https://smart.946985.filegear-sg.me/smart.php?id=Wwe
+
+#EXTINF:-1 tvg-id="FightSports" tvg-name="Fight Sports" tvg-logo="https://img.logo-misc.com/FightSports.png" channel-number="" group-title="Astro Sports Backup",Fight Sports
+https://smart.946985.filegear-sg.me/smart.php?id=Fs
+
+#EXTINF:-1 tvg-id="NBATV" tvg-name="NBA TV" tvg-logo="https://img.logo-misc.com/NBATV.png" channel-number="" group-title="Astro Sports Backup",NBA TV
+https://smart.946985.filegear-sg.me/smart.php?id=Nba
+
+#EXTINF:-1 tvg-id="TNTSports1" tvg-name="TNT Sports 1" tvg-logo="https://img.logo-misc.com/TNTSports1.png" channel-number="" group-title="Astro Sports Backup",Tnt Sports 1
+https://smart.946985.filegear-sg.me/smart.php?id=6fac0aaead
+
+#EXTINF:-1 tvg-id="TNTSports2" tvg-name="TNT Sports 2" tvg-logo="https://img.logo-misc.com/TNTSports2.png" channel-number="" group-title="Astro Sports Backup",TNT Sports 2
+https://smart.946985.filegear-sg.me/smart.php?id=d9a76a79cc
+
+#EXTINF:-1 tvg-id="TNTSports3" tvg-name="TNT Sports 3" tvg-logo="https://img.logo-misc.com/TNTSports3.png" channel-number="" group-title="Astro Sports Backup",TNT Sports 3
+https://smart.946985.filegear-sg.me/smart.php?id=5fea4d73db
+
+#EXTINF:-1 tvg-id="TNTSports4" tvg-name="TNT Sports 4" tvg-logo="https://img.logo-misc.com/TNTSports4.png" channel-number="" group-title="Astro Sports Backup",TNT Sports 4
+https://smart.946985.filegear-sg.me/smart.php?id=tntsport4
+
+#EXTINF:-1 tvg-id="SonyTen1" tvg-name="Sony Ten 1" tvg-logo="https://img.logo-misc.com/SonyTen1.png" channel-number="" group-title="Astro Sports Backup",Sony Ten 1
+https://smart.946985.filegear-sg.me/smart.php?id=ten1_raj
+
+#EXTINF:-1 tvg-id="SonyTen2" tvg-name="Sony Ten 2" tvg-logo="https://img.logo-misc.com/SonyTen2.png" channel-number="" group-title="Astro Sports Backup",Sony Ten 2
+https://smart.946985.filegear-sg.me/smart.php?id=ten2_raj
+
+#EXTINF:-1 tvg-id="SonyTen3" tvg-name="Sony Ten 3" tvg-logo="https://img.logo-misc.com/SonyTen3.png" channel-number="" group-title="Astro Sports Backup",Sony Ten 3
+https://smart.946985.filegear-sg.me/smart.php?id=ten3_raj
+
+#EXTINF:-1 tvg-id="SPOTV1" tvg-name="SPOTV 1 HD" tvg-logo="https://img.logo-astro.com/SPOTV1.png" channel-number="823" group-title="Astro Sports Backup",SPOTV 1 HD
+https://smart.946985.filegear-sg.me/smart.php?id=go_spotv
+
+#EXTINF:-1 tvg-id="SPOTV2" tvg-name="SPO TV 2" tvg-logo="https://img.logo-astro.com/SPOTV2.png" channel-number="824" group-title="Astro Sports Backup",SPO TV 2
+https://smart.946985.filegear-sg.me/smart.php?id=go_spotv2
+
+#EXTINF:-1 tvg-id="SkySportsF1" tvg-name="Sky Sports F1" tvg-logo="https://img.logo-sky.com/SkySportsF1.png" channel-number="" group-title="Astro Sports Backup",Skysports F1
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongf1
+
+#EXTINF:-1 tvg-id="SkySportsCricket" tvg-name="Sky Sports Cricket" tvg-logo="https://img.logo-sky.com/SkySportsCricket.png" channel-number="" group-title="Astro Sports Backup",Skysports Cricket
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongcricket
+
+#EXTINF:-1 tvg-id="SkySportsEPL" tvg-name="Sky Sports EPL" tvg-logo="https://img.logo-sky.com/SkySportsEPL.png" channel-number="" group-title="Astro Sports Backup",Skysports EPL
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongepl
+
+#EXTINF:-1 tvg-id="SkySportsMainEvent" tvg-name="Sky Sports Main Event" tvg-logo="https://img.logo-sky.com/SkySportsMainEvent.png" channel-number="" group-title="Astro Sports Backup",Skysports Main Event
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongmain
+
+#EXTINF:-1 tvg-id="SkySportsNews" tvg-name="Sky Sports News" tvg-logo="https://img.logo-sky.com/SkySportsNews.png" channel-number="" group-title="Astro Sports Backup",Skysports News
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongnews
+
+#EXTINF:-1 tvg-id="SkySportsMix" tvg-name="Sky Sports Mix" tvg-logo="https://img.logo-sky.com/SkySportsMix.png" channel-number="" group-title="Astro Sports Backup",Skysports Mix
+https://smart.946985.filegear-sg.me/smart.php?id=tiankongmix
+
+#EXTINF:-1 tvg-id="CCTV5" tvg-name="CCTV-5" tvg-logo="https://img.logo-cctv.com/CCTV5.png" channel-number="325" group-title="Astro Sports Backup",CCTV-5 体育频道
+https://smart.946985.filegear-sg.me/smart.php?id=cctv5
+
+#EXTINF:-1 tvg-id="CCTV5Plus" tvg-name="CCTV-5+" tvg-logo="https://img.logo-cctv.com/CCTV5Plus.png" channel-number="326" group-title="Astro Sports Backup",CCTV-5+ 体育赛事 HD
+https://smart.946985.filegear-sg.me/smart.php?id=cctv5plus
+
+#EXTINF:-1 tvg-id="ELTASport2" tvg-name="ELTA Sport 2" tvg-logo="https://img.logo-misc.com/ELTASport2.png" channel-number="" group-title="Astro Sports Backup",爱尔达体育2台
+https://smart.946985.filegear-sg.me/smart.php?id=eltasport2_twn
+
+#EXTINF:-1 tvg-id="ELTASport3" tvg-name="ELTA Sport 3" tvg-logo="https://img.logo-misc.com/ELTASport3.png" channel-number="" group-title="Astro Sports Backup",爱尔达体育3台
+https://smart.946985.filegear-sg.me/smart.php?id=eltasport3_twn
+
+#EXTINF:-1 tvg-id="RugbyPassTV" tvg-name="Rugby Pass TV" tvg-logo="https://img.logo-misc.com/RugbyPassTV.png" channel-number="" group-title="Astro Sports Backup",Rugby Pass TV
+https://smart.946985.filegear-sg.me/smart.php?id=Rugbypasstv
+
+#EXTINF:-1 tvg-id="RTMSports" tvg-name="RTM Sports HD" tvg-logo="https://img.logo-misc.com/RTMSports.png" channel-number="111" group-title="Astro Sports Backup",RTM Sports HD
+https://smart.946985.filegear-sg.me/smart.php?id=Rtmsport
+
+
+
+
 
 ######ASTROSPORTS######
 
