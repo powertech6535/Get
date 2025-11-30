@@ -2,10 +2,23 @@
 #EXTM3U billed-msg=" 🌐1 id 1 Decive💯Buy at Powertech Digital (24-Hour Auto Update ip)(Stable Server ip)🌐"
 #EXTM3U vod_library="https://powertech6535.github.io/vod/"
 
+
+#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS Backup" tvg-logo="https://divign0fdw3sv.cloudfront.net/Images/ChannelLogo/contenthub/536_144.png" group-title="ASTRO SPORTS Backup",811 Astro Premier League 1 HD((Backup))
+#http://iptv12k.com:35461/live/m241228343932464/111111/43916.ts
+#https://wahyu1ptv.pages.dev/AstroPremierLeague1-HD.m3u8
+#https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
+
+
+
+
+
+
+
+
 # --- 【新闻女王粤语】文件夹 ---
 
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
-#EXTINF:-1 type="" group-logo="" group-title="新闻女王粤语" tvg-id="新闻女王粤语" tvg-logo="https://img2.ms39pn.com/cdn-cgi/image/quality=100,height=640/upload/vod/2025-11/202511051762327502.jpg",新闻女王2粤语 01
+#EXTINF:-1 type="video" group-logo="" group-title="新闻女王粤语" tvg-id="新闻女王粤语" tvg-logo="https://img2.ms39pn.com/cdn-cgi/image/quality=100,height=640/upload/vod/2025-11/202511051762327502.jpg",新闻女王2粤语 01
 https://wjm.eny7kg.com/decry/vd/20251105/Y2I4ODBjMDU1N/153148/1920_1080/aac/h264/hls/decrypt/index.m3u8
 
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
