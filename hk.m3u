@@ -14,6 +14,16 @@ https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2
 #EXTINF:-1 tvg-id="AstroSupersport1" tvg-name="ASTRO SPORTS Backup" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
 https://smart.946985.filegear-sg.me/smart.php?id=go_assp1
 
+#EXTM3U
+
+# --- 主要源 (Primary) ---
+#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
+https://smart.946985.filegear-sg.me/smart.php?id=Bolaarena2  <-- 链接 A
+
+# --- 备用源 (Fallback) ---
+#EXTINF:-1 tvg-id="AstroSupersport" tvg-name="ASTRO SPORTS" tvg-logo="..." group-title="ASTRO SPORTS Backup",804 BolaArena 2
+https://smart.946985.filegear-sg.me/smart.php?id=go_assp1    <-- 链接 B
+
 
 
 
