@@ -69,6 +69,11 @@
       "zone": 14,
       "name": "OTT Navigator Premium",
       "url": "OTT_Navigator_v1.7.3.3.apk"
+    },
+    {
+      "zone": 15,
+      "name": "KTV Premium",
+      "url": "KTV.apk"
     }
   ]
 }
