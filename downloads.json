@@ -74,6 +74,11 @@
       "zone": 15,
       "name": "KTV Premium",
       "url": "KTV.apk"
+    },
+    {
+      "zone": 16,
+      "name": "影视TV_Setup",
+      "url": "PC_Setup.exe"
     }
   ]
 }
